@@ -1,7 +1,6 @@
 package com.api.batuque.domain.model;
 
 import com.api.batuque.domain.enums.TipoEntidadeEnum;
-import com.api.batuque.domain.enums.FalangeEntidadeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PontoEntidade {
-    private String nomePonto;
-    private String ponto;
-    private FalangeEntidadeEnum falangeEntidade;
+public class Entidades {
+    private String nomeEntidade;
     private TipoEntidadeEnum entidade;
 }

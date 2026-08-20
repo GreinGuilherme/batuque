@@ -1,4 +1,4 @@
-package com.api.batuque.adpater.output.database.entity;
+package com.api.batuque.adpater.output.database.pontoJpa.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

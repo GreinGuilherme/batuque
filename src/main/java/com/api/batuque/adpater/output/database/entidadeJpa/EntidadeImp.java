@@ -1,4 +1,4 @@
-package com.api.batuque.adpater.output.database.pontoJpa;
+package com.api.batuque.adpater.output.database.entidadeJpa;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -7,22 +7,22 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class PontoImp implements PontoRepository{
+public class EntidadeImp implements EntidadeRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Transactional
     @Override
-    public Integer incluirPonto(String nomePonto, String ponto, String entidade) {
+    public Integer incluirEntidade(String nomeEntidade, String entidade) {
         Integer idGerado = jdbcTemplate.queryForObject("""
                 SELECT ISNULL(MAX(ID),0) + 1 
-                FROM PONTO WITH (UPLOCK< HOLDLOCK)
+                FROM ENTIDADE WITH (UPLOCK< HOLDLOCK)
                 """, Integer.class);
 
         jdbcTemplate.update("""
-                INSERT INTO PONTO (ID, NOMEPONTO, PONTO, ENTIDADE)
-                VALUES (?,?,?,?)
-                """, idGerado, nomePonto, ponto, entidade);
+                INSERT INTO ENTIDADE (ID, NOMEPONTO, ENTIDADE)
+                VALUES (?,?,?)
+                """, idGerado, nomeEntidade, entidade);
         return idGerado;
     }
 }
