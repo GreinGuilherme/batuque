@@ -1,5 +1,10 @@
 package com.api.batuque.adpater.output.database.pontoJpa;
 
-public interface PontoRepository {
-    Integer incluirPonto(String nomePonto, String ponto, String entidade);
+import com.api.batuque.adpater.output.database.pontoJpa.entity.ControlePontoEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PontoRepository extends JpaRepository<ControlePontoEntity, Integer> {
+
 }

@@ -1,8 +1,9 @@
 package com.api.batuque.domain.usecase;
 
-import com.api.batuque.adpater.output.database.pontoJpa.PontoRepository;
 import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.input.ControlePontoInputPort;
+import com.api.batuque.domain.port.output.EntidadeRepositoryOutputPort;
+import com.api.batuque.domain.port.output.PontoRepositoryOutputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,11 +11,16 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class ControlePontoUseCase implements ControlePontoInputPort {
 
-    private final PontoRepository pontoRepository;
+    private final PontoRepositoryOutputPort pontoRepositoryOutputPort;
+    private final EntidadeRepositoryOutputPort entidadeRepositoryOutputPort;
 
     @Override
-    public void entradaPonto(PontoEntidade controlePonto) {
+    public void salvarPonto(PontoEntidade controlePonto) {
+        log.info("[SALVAR PONTO] - Verificar Entidade para salvar o ponto: ", controlePonto.getNomePonto());
+        var result = entidadeRepositoryOutputPort.buscarEntidadePorNome(controlePonto.getNomeEntidade());
         log.info("[SALVAR PONTO] - Iniciando processo para salvar o : ", controlePonto.getNomePonto());
-        pontoRepository.incluirPonto(controlePonto.getNomePonto(), controlePonto.getPonto(), controlePonto.getEntidade().toString());
+        controlePonto.setEntidade(result.getId());
+        pontoRepositoryOutputPort.incluirPonto(controlePonto);
+        log.info("[SALVAR PONTO] - Ponto salvo com sucesso!");
     }
 }

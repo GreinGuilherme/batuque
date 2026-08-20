@@ -1,6 +1,5 @@
 package com.api.batuque.adpater.input.ponto.dto;
 
-import com.api.batuque.domain.enums.FalangeEntidadeEnum;
 import com.api.batuque.domain.enums.TipoEntidadeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -18,7 +17,8 @@ public class PontoRequest {
     @NotNull(message = "Ponto é obrigatório")
     private String ponto;
 
-    private FalangeEntidadeEnum falangeEntidade;
+    @NotNull(message = "Nome entidade é obrigatório")
+    private String nomeEntidade;
 
     @NotNull(message = "Qual é a entidade é obrigatório")
     private TipoEntidadeEnum entidade;

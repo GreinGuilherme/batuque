@@ -1,32 +1,30 @@
 package com.api.batuque.adpater.output.database.entidadeJpa.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Table(name = "entidade")
 @NoArgsConstructor
 @AllArgsConstructor
 public class EntidadeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produto_seq")
-    @SequenceGenerator(
-            name = "produto_seq",       // Nome do gerador
-            sequenceName = "produto_seq", // Nome da sequência no banco
-            allocationSize = 1          // Incremento
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
-    private String nomePonto;
+    @Column(name = "nome")
+    private String nomeEntidade;
 
-    private String ponto;
-
+    @Column(name = "categoria")
     private String entidade;
 }

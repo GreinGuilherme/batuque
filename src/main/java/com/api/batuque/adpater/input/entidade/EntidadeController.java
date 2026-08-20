@@ -1,15 +1,20 @@
 package com.api.batuque.adpater.input.entidade;
 
 import com.api.batuque.adpater.input.entidade.dto.EntidadeRequest;
+import com.api.batuque.adpater.input.entidade.dto.EntidadeResponse;
 import com.api.batuque.adpater.input.entidade.mapper.EntidadeRequestMapper;
+import com.api.batuque.domain.model.Entidades;
 import com.api.batuque.domain.port.input.ControleEntidadeInputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -29,5 +34,14 @@ public class EntidadeController {
         entidadeInputPort.salvarEntidade(response);
         log.info("[SALVAR ENTIDADE] - Inclusão realizada com sucesso");
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/buscar")
+    public ResponseEntity<List<EntidadeResponse>> cadastrarEntidade () {
+        log.info("[BUSCAR ENTIDADE] - Iniciando processo para buscar todas as entidades.");
+        List<Entidades> response = entidadeInputPort.buscarEntidades();
+        log.info("[BUSCAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
+        List<EntidadeResponse> responselist = entidadeRequestMapper.modelListToDtolist(response);
+        return ResponseEntity.ok().body(responselist);
     }
 }

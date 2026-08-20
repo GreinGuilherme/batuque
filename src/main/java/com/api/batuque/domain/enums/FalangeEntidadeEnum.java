@@ -57,7 +57,7 @@ public enum FalangeEntidadeEnum {
 
     public static FalangeEntidadeEnum fromDescrition(String descrition) {
         for (FalangeEntidadeEnum entidade : FalangeEntidadeEnum.values()) {
-            if (entidade.getDescrition().equals(descrition)) {
+            if (entidade.getDescrition().equalsIgnoreCase(descrition)) {
                 return entidade;
             }
         }

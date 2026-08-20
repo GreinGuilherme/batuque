@@ -1,9 +1,9 @@
 package com.api.batuque.config;
 
-import com.api.batuque.adpater.output.database.entidadeJpa.EntidadeRepository;
-import com.api.batuque.adpater.output.database.pontoJpa.PontoRepository;
 import com.api.batuque.domain.port.input.ControleEntidadeInputPort;
 import com.api.batuque.domain.port.input.ControlePontoInputPort;
+import com.api.batuque.domain.port.output.EntidadeRepositoryOutputPort;
+import com.api.batuque.domain.port.output.PontoRepositoryOutputPort;
 import com.api.batuque.domain.usecase.ControleEntidadeUseCase;
 import com.api.batuque.domain.usecase.ControlePontoUseCase;
 import org.springframework.context.annotation.Bean;
@@ -14,15 +14,16 @@ public class UseBeanConfig {
 
     @Bean
     public ControlePontoInputPort controlePontoInputPort(
-            PontoRepository pontoRepository
+            PontoRepositoryOutputPort pontoRepository,
+            EntidadeRepositoryOutputPort entidadeRepositoryOutputPort
     ) {
-        return new ControlePontoUseCase(pontoRepository);
+        return new ControlePontoUseCase(pontoRepository, entidadeRepositoryOutputPort);
     }
 
     @Bean
     public ControleEntidadeInputPort controleEntidadeInputPort(
-            EntidadeRepository entidadeRepository
+            EntidadeRepositoryOutputPort entidadeRepositoryOutputPort
     ) {
-        return new ControleEntidadeUseCase(entidadeRepository);
+        return new ControleEntidadeUseCase(entidadeRepositoryOutputPort);
     }
 }
