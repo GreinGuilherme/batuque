@@ -9,19 +9,57 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class PontoAdapter implements PontoRepositoryOutputPort {
 
-    private final PontoRepository pontoRepository;
+    private final PontoJpaRepository pontoJpaRepository;
     private final PontoEntityMapper pontoEntityMapper;
 
     @Transactional
     public void incluirPonto(PontoEntidade pontoEntidade) {
         log.info("[SALVAR PONTO] - Iniciando processo para salvar o ponto");
         ControlePontoEntity ponto = pontoEntityMapper.modelToDto(pontoEntidade);
-        pontoRepository.save(ponto);
+        pontoJpaRepository.save(ponto);
         log.info("[SALVAR PONTO] - Ponto foi salvo com sucesso!");
+    }
+
+    @Override
+    public List<PontoEntidade> buscarPontos() {
+        log.info("[BUSCAR PONTO] - Buscando todos os pontos");
+        List<ControlePontoEntity> pontos = pontoJpaRepository.findAll();
+        log.info("[BUSCAR PONTO] - Busca por todtodos os pontos realizadas com sucesso!");
+        return pontoEntityMapper.entityListtoModelList(pontos);
+    }
+
+    @Override
+    public Optional<PontoEntidade> buscarPorId(Integer id) {
+        return pontoJpaRepository.findById(id)
+                .map(pontoEntityMapper::dtoToModel);
+    }
+
+    @Override
+    public List<PontoEntidade> buscarPontosPorNomeEntidade(String nomeEntidade) {
+        log.info("[BUSCAR PONTO] - Buscando pontos associados à entidade: {}", nomeEntidade);
+        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomeEntidade(nomeEntidade);
+        return pontoEntityMapper.entityListtoModelList(pontos);    }
+
+    @Override
+    public void deletarPonto(Integer id, String nomePonto, String nomeEntidade) {
+        log.info("[DELETAR PONTO] - Iniciando processo para salvar o ponto");
+        pontoJpaRepository.deleteById(id);
+        log.info("[DELETAR PONTO] - Ponto foi deletado com sucesso!");
+    }
+
+    @Override
+    public void atualizarPonto(PontoEntidade pontoEntidade) {
+        log.info("[ATUALIZAR PONTO] - Processo para atualizar o ponto: {}, foi iniciado.", pontoEntidade.getNomePonto());
+        ControlePontoEntity entity = pontoEntityMapper.modelToDto(pontoEntidade);
+        pontoJpaRepository.save(entity);
+        log.info("[ATUALIZAR PONTO] - Ponto salvo com sucesso!");
     }
 }

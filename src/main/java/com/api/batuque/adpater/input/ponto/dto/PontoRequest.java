@@ -15,7 +15,7 @@ public class PontoRequest {
     private String nomePonto;
 
     @NotNull(message = "Ponto é obrigatório")
-    private String ponto;
+    private String pontoLetra;
 
     @NotNull(message = "Nome entidade é obrigatório")
     private String nomeEntidade;

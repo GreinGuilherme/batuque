@@ -10,7 +10,8 @@ import lombok.Setter;
 public class PontoEntidade {
     private Integer id;
     private String nomePonto;
-    private String ponto;
+    private String pontoLetra;
+    private String audioUrl;
     private String nomeEntidade;
     private Integer entidade;
 }

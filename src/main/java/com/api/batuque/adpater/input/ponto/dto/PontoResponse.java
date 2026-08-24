@@ -1,6 +1,5 @@
 package com.api.batuque.adpater.input.ponto.dto;
 
-import com.api.batuque.domain.enums.TipoEntidadeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +10,9 @@ import lombok.Setter;
 public class PontoResponse {
 
     private int id;
+    private String nomePonto;
+    private String pontoLetra;
+    private String audioUrl;
     private String nomeEntidade;
-    private TipoEntidadeEnum entidade;
+    private Integer entidade;
 }

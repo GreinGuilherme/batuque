@@ -1,10 +1,14 @@
 package com.api.batuque.adpater.output.database.pontoJpa.entity;
 
+import com.api.batuque.adpater.output.database.entidadeJpa.entity.EntidadeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,11 +30,12 @@ public class ControlePontoEntity {
     private String nomePonto;
 
     @Column(name = "letra")
-    private String ponto;
+    private String pontoLetra;
 
     @Column(name = "audio_url")
     private String audioUrl;
 
-    @Column(name = "entidade_id")
-    private Integer entidade;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "entidade_id")
+    private EntidadeEntity entidade;
 }

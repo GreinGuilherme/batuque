@@ -22,13 +22,13 @@ public class EntidadeAdapter implements EntidadeRepositoryOutputPort {
     public void incluirEntidade(Entidades entidade) {
         log.info("[SALVAR ENTIDADE] - Salvando entidade {}", entidade.getNomeEntidade());
         EntidadeEntity entity = entidadeEntityMapper.modelToDto(entidade);
-        entidadeJpaRepository.save(entity); // Gera o INSERT e preenche o ID gerado automaticamente
+        entidadeJpaRepository.save(entity);
         log.info("[SALVAR ENTIDADE] - Entidade {}, foi salvo com sucesso!", entidade.getNomeEntidade());
     }
 
     public List<Entidades> buscarEntidades() {
         log.info("[BUSCAR ENTIDADE] - Buscando todas as entidades");
-        List<EntidadeEntity> entities = entidadeJpaRepository.findAll(); // Faz o SELECT * mapeando @Column perfeitamente
+        List<EntidadeEntity> entities = entidadeJpaRepository.findAll();
         log.info("[BUSCAR ENTIDADE] - Busca por todas todas as entidades realizada com sucesso!");
         return entidadeEntityMapper.entityListtoModelList(entities);
     }
