@@ -29,5 +29,5 @@ public interface PontoJpaRepository extends JpaRepository<ControlePontoEntity, I
         SELECT p FROM ControlePontoEntity p 
         WHERE entidade = :codEntidade
     """)
-    List<ControlePontoEntity> buscarPorTipoEntidade(@Param("nomeEntidade") Integer codEntidade);
+    List<ControlePontoEntity> buscarPorTipoEntidade(@Param("codEntidade") Integer codEntidade);
 }
