@@ -8,7 +8,7 @@ import java.util.List;
 public interface ControlePontoInputPort {
     void salvarPonto(PontoEntidade controlePonto);
     List<PontoEntidade> buscarPontos();
-    List<PontoEntidade> buscarPontosPorNomeEntidade(String nomeEntidade);
+    List<PontoEntidade> buscarPontosPorFiltro(PontoEntidade request);
     void deletarPontoPorEntidade(@RequestParam Integer id,
                                  @RequestParam String nomePonto,
                                  @RequestParam String nomeEntidade);

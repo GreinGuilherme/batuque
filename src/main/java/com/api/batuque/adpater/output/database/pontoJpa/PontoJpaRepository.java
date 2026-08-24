@@ -14,7 +14,20 @@ public interface PontoJpaRepository extends JpaRepository<ControlePontoEntity, I
     @Query("""
         SELECT p FROM ControlePontoEntity p 
         JOIN p.entidade e 
+        WHERE nomePonto = :nomePonto
+    """)
+    List<ControlePontoEntity> buscarPorNomePonto(@Param("nomePonto") String nomePonto);
+
+    @Query("""
+        SELECT p FROM ControlePontoEntity p 
+        JOIN p.entidade e 
         WHERE LOWER(e.nomeEntidade) LIKE LOWER(CONCAT('%', :nomeEntidade, '%'))
     """)
     List<ControlePontoEntity> buscarPorNomeEntidade(@Param("nomeEntidade") String nomeEntidade);
+
+    @Query("""
+        SELECT p FROM ControlePontoEntity p 
+        WHERE entidade = :codEntidade
+    """)
+    List<ControlePontoEntity> buscarPorTipoEntidade(@Param("nomeEntidade") Integer codEntidade);
 }

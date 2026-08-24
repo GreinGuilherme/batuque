@@ -43,10 +43,32 @@ public class PontoAdapter implements PontoRepositoryOutputPort {
     }
 
     @Override
-    public List<PontoEntidade> buscarPontosPorNomeEntidade(String nomeEntidade) {
+    public List<PontoEntidade> buscarPontosPorNomePontos(String nomePonto) {
+        log.info("[BUSCAR PONTO] - Buscando ponto com nome: {}", nomePonto);
+        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomePonto(nomePonto);
+        return pontoEntityMapper.entityListtoModelList(pontos);
+    }
+
+    @Override
+    public List<PontoEntidade> buscarPontosPorPontoLetra(String pontoLetra) {
+        log.info("[BUSCAR PONTO] - Buscando ponto pela letra: {}", pontoLetra);
+        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomePonto(pontoLetra);
+        return pontoEntityMapper.entityListtoModelList(pontos);
+    }
+
+    @Override
+    public List<PontoEntidade> buscarPontosNomeEntidade(String nomeEntidade) {
         log.info("[BUSCAR PONTO] - Buscando pontos associados à entidade: {}", nomeEntidade);
         List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomeEntidade(nomeEntidade);
-        return pontoEntityMapper.entityListtoModelList(pontos);    }
+        return pontoEntityMapper.entityListtoModelList(pontos);
+    }
+
+    @Override
+    public List<PontoEntidade> buscarPontosPorTipoEntidade(Integer codEntidade) {
+        log.info("[BUSCAR PONTO] - Buscando pontos associados à entidade: {}", codEntidade);
+        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorTipoEntidade(codEntidade);
+        return pontoEntityMapper.entityListtoModelList(pontos);
+    }
 
     @Override
     public void deletarPonto(Integer id, String nomePonto, String nomeEntidade) {

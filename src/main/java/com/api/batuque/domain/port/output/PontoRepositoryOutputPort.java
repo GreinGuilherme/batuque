@@ -9,7 +9,10 @@ public interface PontoRepositoryOutputPort {
     void incluirPonto(PontoEntidade pontoEntidade);
     List<PontoEntidade> buscarPontos();
     Optional<PontoEntidade> buscarPorId(Integer id);
-    List<PontoEntidade> buscarPontosPorNomeEntidade(String nomeEntidade);
+    List<PontoEntidade> buscarPontosPorNomePontos(String nomePonto);
+    List<PontoEntidade> buscarPontosPorPontoLetra(String pontoLetra);
+    List<PontoEntidade> buscarPontosNomeEntidade(String nomeEntidade);
+    List<PontoEntidade> buscarPontosPorTipoEntidade(Integer codEntidade);
     void deletarPonto(Integer id, String nomePonto, String nomeEntidade);
     void atualizarPonto(PontoEntidade pontoEntidade);
 }

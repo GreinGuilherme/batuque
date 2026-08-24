@@ -1,7 +1,9 @@
 package com.api.batuque.adpater.input.ponto;
 
+import com.api.batuque.adpater.input.ponto.dto.PontoFiltroRequest;
 import com.api.batuque.adpater.input.ponto.dto.PontoRequest;
 import com.api.batuque.adpater.input.ponto.dto.PontoResponse;
+import com.api.batuque.adpater.input.ponto.mapper.PontoFiltroRequestMapper;
 import com.api.batuque.adpater.input.ponto.mapper.PontoRequestMapper;
 import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.input.ControlePontoInputPort;
@@ -30,6 +32,7 @@ public class GestaoPontosController {
 
     private final ControlePontoInputPort controlePonto;
     private final PontoRequestMapper pontoRequestMapper;
+    private final PontoFiltroRequestMapper pontoFiltroRequestMapper;
 
     @PostMapping(value = "/cadastrar", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> cadastrarPonto (@RequestBody PontoRequest request) {
@@ -49,10 +52,20 @@ public class GestaoPontosController {
         return ResponseEntity.ok().body(responselist);
     }
 
-    @GetMapping(value = "/buscar/{nomeEntidade}")
-    public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@PathVariable String nomeEntidade) {
-        log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade: .", nomeEntidade);
-        List<PontoEntidade> response = controlePonto.buscarPontosPorNomeEntidade(nomeEntidade);
+//    @GetMapping(value = "/buscar/{nomeEntidade}")
+//    public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@PathVariable String nomeEntidade) {
+//        log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade: .", nomeEntidade);
+//        List<PontoEntidade> response = controlePonto.buscarPontosPorNomeEntidade(nomeEntidade);
+//        log.info("[BUSCAR PONTO] - Busca de pontos realizada com sucesso");
+//        List<PontoResponse> responselist = pontoRequestMapper.modelListToDtolist(response);
+//        return ResponseEntity.ok().body(responselist);
+//    }
+
+    @GetMapping(value = "/buscar/filtro")
+    public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@RequestBody PontoFiltroRequest request) {
+        log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade.");
+        PontoEntidade domain = pontoFiltroRequestMapper.dtoToModel(request);
+        List<PontoEntidade> response = controlePonto.buscarPontosPorFiltro(domain);
         log.info("[BUSCAR PONTO] - Busca de pontos realizada com sucesso");
         List<PontoResponse> responselist = pontoRequestMapper.modelListToDtolist(response);
         return ResponseEntity.ok().body(responselist);
