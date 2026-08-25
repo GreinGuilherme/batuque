@@ -8,7 +8,9 @@ import com.api.batuque.domain.port.input.ControleEntidadeInputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,5 +45,13 @@ public class EntidadeController {
         log.info("[BUSCAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
         List<EntidadeResponse> responselist = entidadeRequestMapper.modelListToDtolist(response);
         return ResponseEntity.ok().body(responselist);
+    }
+
+    @DeleteMapping(value = "/deletar/{entidadeId}")
+    public ResponseEntity<?> deletarEntidade (@PathVariable Integer entidadeId) {
+        log.info("[DELETAR ENTIDADE] - Iniciando processo para deleção da entidade.");
+        entidadeInputPort.deletarEntidade(entidadeId);
+        log.info("[DELETAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
+        return ResponseEntity.ok().build();
     }
 }

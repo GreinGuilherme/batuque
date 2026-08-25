@@ -9,4 +9,5 @@ public interface EntidadeRepositoryOutputPort {
     List<Entidades> buscarEntidades();
     Entidades buscarEntidadePorNome(String nome);
     Entidades buscarEntidadesPorId(Integer entidadeId);
+    void deletarEntidade(Integer entidadeId);
 }

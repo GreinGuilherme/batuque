@@ -53,7 +53,7 @@ public class PontoAdapter implements PontoRepositoryOutputPort {
     @Override
     public List<PontoEntidade> buscarPontosPorPontoLetra(String pontoLetra) {
         log.info("[BUSCAR PONTO] - Buscando ponto pela letra: {}", pontoLetra);
-        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomePonto(pontoLetra);
+        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorPontoLetra(pontoLetra);
         return pontoEntityMapper.entityListtoModelList(pontos);
     }
 

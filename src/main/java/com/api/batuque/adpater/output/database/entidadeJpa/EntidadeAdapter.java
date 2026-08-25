@@ -47,4 +47,12 @@ public class EntidadeAdapter implements EntidadeRepositoryOutputPort {
                 .map(entidadeEntityMapper::dtoToModel)
                 .orElseThrow(() -> new EntityNotFoundException("[BUSCAR ENTIDADE] - Entidade não encontrada para o ID: " + entidadeId));
     }
+
+    @Override
+    public void deletarEntidade(Integer entidadeId) {
+        log.info("[DELETAR ENTIDADE] - Verificar existencia da entidade por ID: {}", entidadeId);
+        var result = buscarEntidadesPorId(entidadeId);
+        log.info("[DELETAR ENTIDADE] - Deletando entidade por ID: {}", entidadeId);
+        entidadeJpaRepository.deleteById(entidadeId);
+    }
 }

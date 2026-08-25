@@ -16,9 +16,6 @@ public class PontoRequest {
     @NotNull(message = "Ponto é obrigatório")
     private String pontoLetra;
 
-    @NotNull(message = "Nome entidade é obrigatório")
-    private String nomeEntidade;
-
     @NotNull(message = "ID da entidade é obrigatório")
     private Integer entidadeId;
 }

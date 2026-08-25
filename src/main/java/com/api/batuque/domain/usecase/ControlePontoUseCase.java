@@ -59,7 +59,7 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
             log.info("[BUSCAR PONTO] - Iniciando busca por nome da entidade: {}.", request.getNomeEntidade());
             return pontoRepositoryOutputPort.buscarPontosNomeEntidade(request.getNomeEntidade());
         }
-        if (request.getLinhaEntidade() != null&& !request.getNomeEntidade().isBlank()) {
+        if (request.getLinhaEntidade() != null) {
             log.info("[BUSCAR PONTO] - Iniciando busca por falange da entidade: {}.", request.getEntidadeId());
             return pontoRepositoryOutputPort.buscarPontosPorLinhaEntidade(request.getLinhaEntidade());
         }

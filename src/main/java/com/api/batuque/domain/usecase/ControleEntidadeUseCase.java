@@ -29,4 +29,11 @@ public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
         log.info("[BUSCAR ENTIDADE] - Busca por toodas as entidades completa.");
         return result;
     }
+
+    @Override
+    public void deletarEntidade(Integer entidadeId) {
+        log.info("[DELETAR ENTIDADE] - Iniciando processo para deleção da entidade.");
+        entidadeRepositoryOutputPort.deletarEntidade(entidadeId);
+        log.info("[DELETAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
+    }
 }

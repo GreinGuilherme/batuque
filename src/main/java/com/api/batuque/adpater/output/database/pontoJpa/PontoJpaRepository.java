@@ -15,9 +15,17 @@ public interface PontoJpaRepository extends JpaRepository<ControlePontoEntity, I
     @Query("""
         SELECT p FROM ControlePontoEntity p 
         JOIN p.entidade e 
-        WHERE nomePonto = :nomePonto
+        WHERE LOWER(p.nomePonto) LIKE LOWER(CONCAT('%', :nomePonto, '%'))
     """)
     List<ControlePontoEntity> buscarPorNomePonto(@Param("nomePonto") String nomePonto);
+
+    // Query para busca parcial na letra:
+    @Query("""
+        SELECT p FROM ControlePontoEntity p 
+        JOIN p.entidade e 
+        WHERE LOWER(p.pontoLetra) LIKE LOWER(CONCAT('%', :pontoLetra, '%'))
+    """)
+    List<ControlePontoEntity> buscarPorPontoLetra(@Param("pontoLetra") String pontoLetra);
 
     @Query("""
         SELECT p FROM ControlePontoEntity p 
@@ -27,9 +35,8 @@ public interface PontoJpaRepository extends JpaRepository<ControlePontoEntity, I
     List<ControlePontoEntity> buscarPorNomeEntidade(@Param("nomeEntidade") String nomeEntidade);
 
     @Query("""
-
-        SELECT p FROM ControlePontoEntity p
-        JOIN p.entidade e
+        SELECT p FROM ControlePontoEntity p 
+        JOIN p.entidade e 
         WHERE e.linhaEntidade = :linha
     """)
     List<ControlePontoEntity> buscarPorLinhaEntidade(@Param("linha") LinhaEntidadeEnum linha);
