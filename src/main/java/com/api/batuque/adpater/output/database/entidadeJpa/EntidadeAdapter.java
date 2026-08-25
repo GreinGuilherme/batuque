@@ -2,6 +2,7 @@ package com.api.batuque.adpater.output.database.entidadeJpa;
 
 import com.api.batuque.adpater.output.database.entidadeJpa.entity.EntidadeEntity;
 import com.api.batuque.adpater.output.database.entidadeJpa.mapper.EntidadeEntityMapper;
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import com.api.batuque.domain.model.Entidades;
 import com.api.batuque.domain.port.output.EntidadeRepositoryOutputPort;
 import jakarta.persistence.EntityNotFoundException;
@@ -42,10 +43,30 @@ public class EntidadeAdapter implements EntidadeRepositoryOutputPort {
 
     @Override
     public Entidades buscarEntidadesPorId(Integer entidadeId) {
-        log.info("[BUSCAR ENTIDADE] - Buscando entidade por ID: {}", entidadeId);
+        log.info("[FILTRAR ENTIDADE] - Buscando entidade por ID: {}", entidadeId);
         return entidadeJpaRepository.findById(entidadeId)
                 .map(entidadeEntityMapper::dtoToModel)
                 .orElseThrow(() -> new EntityNotFoundException("[BUSCAR ENTIDADE] - Entidade não encontrada para o ID: " + entidadeId));
+    }
+
+    @Override
+    public List<Entidades> buscarEntidadesPorFalange(String falange) {
+        log.info("[FILTRAR ENTIDADE] - Filtrando entidade por falange: {}", falange);
+        List<EntidadeEntity> entities = entidadeJpaRepository.findByFalange(falange);
+        if (entities.isEmpty()) {
+            throw new EntityNotFoundException("[BUSCAR ENTIDADE] - Nenhuma entidade encontrada para a falange: " + falange);
+        }
+        return entidadeEntityMapper.entityListtoModelList(entities);
+    }
+
+    @Override
+    public List<Entidades> buscarEntidadesPorLinha(LinhaEntidadeEnum linhaEntidade) {
+        log.info("[FILTRAR ENTIDADE] - Filtrando entidade por linha: {}", linhaEntidade);
+        List<EntidadeEntity> entities = entidadeJpaRepository.findByLinha(linhaEntidade);
+        if (entities.isEmpty()) {
+            throw new EntityNotFoundException("[BUSCAR ENTIDADE] - Nenhuma entidade encontrada para a linha: " + linhaEntidade);
+        }
+        return entidadeEntityMapper.entityListtoModelList(entities);
     }
 
     @Override

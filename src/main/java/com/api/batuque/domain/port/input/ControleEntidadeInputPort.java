@@ -7,5 +7,6 @@ import java.util.List;
 public interface ControleEntidadeInputPort {
     void salvarEntidade (Entidades entidades);
     List<Entidades> buscarEntidades ();
+    List<Entidades> filtrarEntidades (Entidades entidade);
     void deletarEntidade(Integer id);
 }

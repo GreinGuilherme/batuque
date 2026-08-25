@@ -5,7 +5,10 @@ import com.api.batuque.domain.port.input.ControleEntidadeInputPort;
 import com.api.batuque.domain.port.output.EntidadeRepositoryOutputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +31,30 @@ public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
         List<Entidades> result = entidadeRepositoryOutputPort.buscarEntidades();
         log.info("[BUSCAR ENTIDADE] - Busca por toodas as entidades completa.");
         return result;
+    }
+
+    @Override
+    public List<Entidades> filtrarEntidades(Entidades entidade) {
+        log.info("[FILTRAR ENTIDADE] - Selecionando processo de filtragem da entidade.");
+        if (entidade.getId() != null) {
+            log.info("[FILTRAR PONTO] - Iniciando filtro entidade por id: {}.", entidade.getId());
+            var response = entidadeRepositoryOutputPort.buscarEntidadesPorId(entidade.getId());
+            return List.of(response);
+        }
+        if (entidade.getNomeEntidade() != null && !entidade.getNomeEntidade().isBlank()) {
+            log.info("[FILTRAR PONTO] - Iniciando filtro por nome da entidade: {}.", entidade.getNomeEntidade());
+            var response = entidadeRepositoryOutputPort.buscarEntidadePorNome(entidade.getNomeEntidade());
+            return List.of(response);
+        }
+        if (entidade.getFalange() != null && !entidade.getFalange().isBlank()) {
+            log.info("[FILTRAR PONTO] - Iniciando filtro ponto por falange: .", entidade.getFalange());
+            return entidadeRepositoryOutputPort.buscarEntidadesPorFalange(entidade.getFalange());
+        }
+        if (entidade.getLinhaEntidade() != null) {
+            log.info("[FILTRAR PONTO] - Iniciando filtro por linha da entidade: {}.", entidade.getLinhaEntidade().getDescrition());
+            return entidadeRepositoryOutputPort.buscarEntidadesPorLinha(entidade.getLinhaEntidade());
+        }
+        throw HttpClientErrorException.NotFound.create(HttpStatus.NOT_FOUND, "Not Found", null, null, null);
     }
 
     @Override

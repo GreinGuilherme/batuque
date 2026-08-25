@@ -12,5 +12,6 @@ public class EntidadeResponse {
 
     private int id;
     private String nomeEntidade;
+    private String falange;
     private LinhaEntidadeEnum linhaEntidade;
 }
