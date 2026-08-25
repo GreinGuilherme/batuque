@@ -3,7 +3,7 @@ package com.api.batuque.domain.enums;
 import lombok.Getter;
 
 @Getter
-public enum TipoEntidadeEnum {
+public enum LinhaEntidadeEnum {
 
     ORIXA(1, "Orixá"),
     EXU(2, "Exu"),
@@ -20,13 +20,13 @@ public enum TipoEntidadeEnum {
     private final int code;
     private final String descrition;
 
-    TipoEntidadeEnum(int code, String descrition) {
+    LinhaEntidadeEnum(int code, String descrition) {
         this.code = code;
         this.descrition = descrition;
     }
 
-    public static TipoEntidadeEnum fromCode(int code) {
-        for (TipoEntidadeEnum entidade : TipoEntidadeEnum.values()) {
+    public static LinhaEntidadeEnum fromCode(int code) {
+        for (LinhaEntidadeEnum entidade : LinhaEntidadeEnum.values()) {
             if (entidade.getCode() == code) {
                 return entidade;
             }
@@ -34,8 +34,8 @@ public enum TipoEntidadeEnum {
         throw new IllegalArgumentException("Código inválido para TipoEntidadeEnum: " + code);
     }
 
-    public static TipoEntidadeEnum fromDescrition(String descrition) {
-        for (TipoEntidadeEnum entidade : TipoEntidadeEnum.values()) {
+    public static LinhaEntidadeEnum fromDescrition(String descrition) {
+        for (LinhaEntidadeEnum entidade : LinhaEntidadeEnum.values()) {
             if (entidade.getDescrition().equals(descrition)) {
                 return entidade;
             }

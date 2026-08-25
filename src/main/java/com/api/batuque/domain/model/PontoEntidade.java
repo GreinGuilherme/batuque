@@ -1,5 +1,6 @@
 package com.api.batuque.domain.model;
 
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,5 +14,6 @@ public class PontoEntidade {
     private String pontoLetra;
     private String audioUrl;
     private String nomeEntidade;
-    private Integer entidade;
+    private Integer entidadeId;           // FK da tabela 'entidade'
+    private LinhaEntidadeEnum linhaEntidade; // Linha (EXU, CABOCLO, etc.)
 }

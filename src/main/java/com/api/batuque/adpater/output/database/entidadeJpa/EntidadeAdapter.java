@@ -39,4 +39,12 @@ public class EntidadeAdapter implements EntidadeRepositoryOutputPort {
                 .map(entity -> entidadeEntityMapper.dtoToModel(entity))
                 .orElseThrow(() -> new EntityNotFoundException("[BUSCAR ENTIDADE] - Entidade não encontrada: " + nome));
     }
+
+    @Override
+    public Entidades buscarEntidadesPorId(Integer entidadeId) {
+        log.info("[BUSCAR ENTIDADE] - Buscando entidade por ID: {}", entidadeId);
+        return entidadeJpaRepository.findById(entidadeId)
+                .map(entidadeEntityMapper::dtoToModel)
+                .orElseThrow(() -> new EntityNotFoundException("[BUSCAR ENTIDADE] - Entidade não encontrada para o ID: " + entidadeId));
+    }
 }

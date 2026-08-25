@@ -1,6 +1,7 @@
 package com.api.batuque.adpater.output.database.pontoJpa;
 
 import com.api.batuque.adpater.output.database.pontoJpa.entity.ControlePontoEntity;
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,8 +27,10 @@ public interface PontoJpaRepository extends JpaRepository<ControlePontoEntity, I
     List<ControlePontoEntity> buscarPorNomeEntidade(@Param("nomeEntidade") String nomeEntidade);
 
     @Query("""
-        SELECT p FROM ControlePontoEntity p 
-        WHERE entidade = :codEntidade
+
+        SELECT p FROM ControlePontoEntity p
+        JOIN p.entidade e
+        WHERE e.linhaEntidade = :linha
     """)
-    List<ControlePontoEntity> buscarPorTipoEntidade(@Param("codEntidade") Integer codEntidade);
+    List<ControlePontoEntity> buscarPorLinhaEntidade(@Param("linha") LinhaEntidadeEnum linha);
 }

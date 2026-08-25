@@ -2,6 +2,7 @@ package com.api.batuque.adpater.output.database.pontoJpa;
 
 import com.api.batuque.adpater.output.database.pontoJpa.entity.ControlePontoEntity;
 import com.api.batuque.adpater.output.database.pontoJpa.mapper.PontoEntityMapper;
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.output.PontoRepositoryOutputPort;
 import jakarta.transaction.Transactional;
@@ -58,15 +59,15 @@ public class PontoAdapter implements PontoRepositoryOutputPort {
 
     @Override
     public List<PontoEntidade> buscarPontosNomeEntidade(String nomeEntidade) {
-        log.info("[BUSCAR PONTO] - Buscando pontos associados à entidade: {}", nomeEntidade);
+        log.info("[BUSCAR PONTO] - Buscando pontos associados ao nome da entidade: {}", nomeEntidade);
         List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomeEntidade(nomeEntidade);
         return pontoEntityMapper.entityListtoModelList(pontos);
     }
 
     @Override
-    public List<PontoEntidade> buscarPontosPorTipoEntidade(Integer codEntidade) {
-        log.info("[BUSCAR PONTO] - Buscando pontos associados à entidade: {}", codEntidade);
-        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorTipoEntidade(codEntidade);
+    public List<PontoEntidade> buscarPontosPorLinhaEntidade(LinhaEntidadeEnum linhaEntidade) {
+        log.info("[BUSCAR PONTO] - Buscando pontos associados à linha da entidade: {}", linhaEntidade.getDescrition());
+        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorLinhaEntidade(linhaEntidade);
         return pontoEntityMapper.entityListtoModelList(pontos);
     }
 

@@ -1,7 +1,10 @@
 package com.api.batuque.adpater.output.database.entidadeJpa.entity;
 
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,9 +25,13 @@ public class EntidadeEntity {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false, length = 100)
     private String nomeEntidade;
 
-    @Column(name = "categoria")
-    private String entidade;
+    @Column(name = "falange", length = 50)
+    private String falange;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria", nullable = false, length = 50)
+    private LinhaEntidadeEnum linhaEntidade;
 }

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,7 +63,7 @@ public class GestaoPontosController {
 //    }
 
     @GetMapping(value = "/buscar/filtro")
-    public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@RequestBody PontoFiltroRequest request) {
+    public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@ModelAttribute PontoFiltroRequest request) {
         log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade.");
         PontoEntidade domain = pontoFiltroRequestMapper.dtoToModel(request);
         List<PontoEntidade> response = controlePonto.buscarPontosPorFiltro(domain);

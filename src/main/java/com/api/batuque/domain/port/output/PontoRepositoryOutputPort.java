@@ -1,5 +1,6 @@
 package com.api.batuque.domain.port.output;
 
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import com.api.batuque.domain.model.PontoEntidade;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface PontoRepositoryOutputPort {
     List<PontoEntidade> buscarPontosPorNomePontos(String nomePonto);
     List<PontoEntidade> buscarPontosPorPontoLetra(String pontoLetra);
     List<PontoEntidade> buscarPontosNomeEntidade(String nomeEntidade);
-    List<PontoEntidade> buscarPontosPorTipoEntidade(Integer codEntidade);
+    List<PontoEntidade> buscarPontosPorLinhaEntidade(LinhaEntidadeEnum linhaEntidadeEnum);
     void deletarPonto(Integer id, String nomePonto, String nomeEntidade);
     void atualizarPonto(PontoEntidade pontoEntidade);
 }

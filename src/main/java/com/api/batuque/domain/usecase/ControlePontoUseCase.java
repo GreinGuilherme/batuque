@@ -22,9 +22,11 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
     @Override
     public void salvarPonto(PontoEntidade controlePonto) {
         log.info("[SALVAR PONTO] - Verificar Entidade para salvar o ponto: ", controlePonto.getNomePonto());
-        var result = entidadeRepositoryOutputPort.buscarEntidadePorNome(controlePonto.getNomeEntidade());
+        var entidade = entidadeRepositoryOutputPort.buscarEntidadesPorId(controlePonto.getEntidadeId());
         log.info("[SALVAR PONTO] - Iniciando processo para salvar o : ", controlePonto.getNomePonto());
-        controlePonto.setEntidade(result.getId());
+        controlePonto.setNomeEntidade(entidade.getNomeEntidade());
+        controlePonto.setEntidadeId(entidade.getId());
+        controlePonto.setLinhaEntidade(entidade.getLinhaEntidade());
         pontoRepositoryOutputPort.incluirPonto(controlePonto);
         log.info("[SALVAR PONTO] - Ponto salvo com sucesso!");
     }
@@ -51,17 +53,17 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
         }
         if (request.getPontoLetra() != null && !request.getPontoLetra().isBlank()) {
             log.info("[BUSCAR PONTO] - Iniciando busca ponto por letra.");
-            return pontoRepositoryOutputPort.buscarPontosPorPontoLetra(request.getNomePonto());
+            return pontoRepositoryOutputPort.buscarPontosPorPontoLetra(request.getPontoLetra());
         }
         if (request.getNomeEntidade() != null && !request.getNomeEntidade().isBlank()) {
             log.info("[BUSCAR PONTO] - Iniciando busca por nome da entidade: {}.", request.getNomeEntidade());
             return pontoRepositoryOutputPort.buscarPontosNomeEntidade(request.getNomeEntidade());
         }
-        if (request.getEntidade() != null) {
-            log.info("[BUSCAR PONTO] - Iniciando busca por falange da entidade: {}.", request.getEntidade());
-            return pontoRepositoryOutputPort.buscarPontosPorTipoEntidade(request.getEntidade());
+        if (request.getLinhaEntidade() != null&& !request.getNomeEntidade().isBlank()) {
+            log.info("[BUSCAR PONTO] - Iniciando busca por falange da entidade: {}.", request.getEntidadeId());
+            return pontoRepositoryOutputPort.buscarPontosPorLinhaEntidade(request.getLinhaEntidade());
         }
-        throw HttpClientErrorException.NotFound.create(HttpStatus.NOT_FOUND, "404 Not Found", null, null, null);
+        throw HttpClientErrorException.NotFound.create(HttpStatus.NOT_FOUND, "Not Found", null, null, null);
     }
 
     @Override
@@ -88,7 +90,7 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
         }
         if (pontoEntidade.getNomeEntidade() != null && !pontoEntidade.getNomeEntidade().isBlank()) {
             var entidade = entidadeRepositoryOutputPort.buscarEntidadePorNome(pontoEntidade.getNomeEntidade());
-            pontoExistente.setEntidade(entidade.getId());
+            pontoExistente.setEntidadeId(entidade.getId());
             pontoExistente.setNomeEntidade(pontoEntidade.getNomeEntidade());
         }
 

@@ -10,11 +10,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PontoEntityMapper {
 
-    @Mapping(target = "entidade.id", source = "entidade")
+    @Mapping(target = "entidade.id", source = "entidadeId")
     ControlePontoEntity modelToDto(PontoEntidade entidades);
 
-    @Mapping(target = "entidade", source = "entidade.id")
+    @Mapping(target = "entidadeId", source = "entidade.id")
     @Mapping(target = "nomeEntidade", source = "entidade.nomeEntidade")
+    @Mapping(target = "linhaEntidade", source = "entidade.linhaEntidade")
     PontoEntidade dtoToModel(ControlePontoEntity entidadeRequest);
 
     List<ControlePontoEntity> modelListToEntitylist(List<PontoEntidade> etidadesEntityList);

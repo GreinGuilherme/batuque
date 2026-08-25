@@ -1,6 +1,6 @@
 package com.api.batuque.adpater.input.entidade.dto;
 
-import com.api.batuque.domain.enums.TipoEntidadeEnum;
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,5 +12,5 @@ public class EntidadeResponse {
 
     private int id;
     private String nomeEntidade;
-    private TipoEntidadeEnum entidade;
+    private LinhaEntidadeEnum linhaEntidade;
 }

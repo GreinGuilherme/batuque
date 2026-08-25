@@ -1,6 +1,6 @@
 package com.api.batuque.adpater.input.ponto.dto;
 
-import com.api.batuque.domain.enums.TipoEntidadeEnum;
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,5 +14,6 @@ public class PontoFiltroRequest {
     private String pontoLetra;
     private String audioUrl;
     private String nomeEntidade;
-    private TipoEntidadeEnum entidade;
+    private Integer entidadeId;
+    private LinhaEntidadeEnum linhaEntidade;
 }
