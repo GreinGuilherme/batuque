@@ -85,10 +85,10 @@ public class GestaoPontosController {
     @PatchMapping(value = "/atualizar/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> altualizarPonto (@PathVariable Integer id,
                                               @RequestBody PontoRequest request) {
-        log.info("[ATUALIZAR PONTO] - Iniciando processo para atuaslizar o ponto: {}", request.getNomePonto());
+        log.info("[ATUALIZAR PONTO] - Iniciando processo para atualizar o ponto: {}", request.getNomePonto());
         var response = pontoRequestMapper.dtoToModel(request);
         controlePonto.atualizarPonto(id, response);
-        log.info("[SALVAR PONTO] - Inclusão realizada com sucesso");
+        log.info("[ATUALIZAR PONTO] - Atualização realizada com sucesso");
         return ResponseEntity.ok().build();
     }
 }

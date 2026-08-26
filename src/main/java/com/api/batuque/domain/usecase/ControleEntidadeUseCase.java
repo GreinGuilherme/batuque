@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -62,5 +61,24 @@ public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
         log.info("[DELETAR ENTIDADE] - Iniciando processo para deleção da entidade.");
         entidadeRepositoryOutputPort.deletarEntidade(entidadeId);
         log.info("[DELETAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
+    }
+
+    @Override
+    public void atualizarEntidade(Integer id, Entidades entidades) {
+        log.info("[ATUALIZAR ENTIDADE] - Processo para atualizar a entidade id: {}, foi iniciado.", id);
+        Entidades entidadeExistente = entidadeRepositoryOutputPort.buscarEntidadesPorId(id);
+
+        if (entidades.getNomeEntidade() != null && !entidades.getNomeEntidade().isBlank()) {
+            entidadeExistente.setNomeEntidade(entidades.getNomeEntidade());
+        }
+        if (entidades.getFalange() != null && !entidades.getFalange().isBlank()) {
+            entidadeExistente.setFalange(entidades.getFalange());
+        }
+        if (entidades.getLinhaEntidade() != null) {
+            entidadeExistente.setLinhaEntidade(entidades.getLinhaEntidade());
+        }
+
+        entidadeRepositoryOutputPort.incluirEntidade(entidadeExistente);
+        log.info("[ATUALIZAR ENTIDADE] - Entidade salva com sucesso!");
     }
 }

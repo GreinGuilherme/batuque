@@ -9,4 +9,5 @@ public interface ControleEntidadeInputPort {
     List<Entidades> buscarEntidades ();
     List<Entidades> filtrarEntidades (Entidades entidade);
     void deletarEntidade(Integer id);
+    void atualizarEntidade(Integer id, Entidades entidades);
 }
