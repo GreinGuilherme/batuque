@@ -67,14 +67,14 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
     }
 
     @Override
-    public void deletarPontoPorEntidade(Integer id, String nomePonto, String nomeEntidade) {
+    public void deletarPontoPorEntidade(Long id, String nomePonto, String nomeEntidade) {
         log.info("[DELETAR PONTO] - Iniciando processo para deletar o ponto: {} da entidade: {}", nomePonto, nomeEntidade);
         pontoRepositoryOutputPort.deletarPonto(id, nomePonto, nomeEntidade);
         log.info("[DELETAR PONTO] - Processo de deleção completo!");
     }
 
     @Override
-    public void atualizarPonto(Integer id, PontoEntidade pontoEntidade) {
+    public void atualizarPonto(Long id, PontoEntidade pontoEntidade) {
         log.info("[ATUALIZAR PONTO] - Processo para atualizar o ponto: {}, foi iniciado.", pontoEntidade.getNomePonto());
         PontoEntidade pontoExistente = pontoRepositoryOutputPort.buscarPorId(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ponto não encontrado para o ID: " + id));

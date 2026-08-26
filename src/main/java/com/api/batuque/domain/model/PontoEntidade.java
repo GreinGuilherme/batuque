@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PontoEntidade {
-    private Integer id;
+    private Long id;
     private String nomePonto;
     private String pontoLetra;
     private String audioUrl;
     private String nomeEntidade;
-    private Integer entidadeId;           // FK da tabela 'entidade'
+    private Long entidadeId;           // FK da tabela 'entidade'
     private LinhaEntidadeEnum linhaEntidade; // Linha (EXU, CABOCLO, etc.)
 }

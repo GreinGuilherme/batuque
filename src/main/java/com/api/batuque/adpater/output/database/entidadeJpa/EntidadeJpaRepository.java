@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EntidadeJpaRepository extends JpaRepository<EntidadeEntity, Integer> {
+public interface EntidadeJpaRepository extends JpaRepository<EntidadeEntity, Long> {
     Optional<EntidadeEntity> findByNomeEntidade(String nomeEntidade);
 
     @Query("""

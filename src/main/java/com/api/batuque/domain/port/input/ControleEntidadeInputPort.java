@@ -8,6 +8,6 @@ public interface ControleEntidadeInputPort {
     void salvarEntidade (Entidades entidades);
     List<Entidades> buscarEntidades ();
     List<Entidades> filtrarEntidades (Entidades entidade);
-    void deletarEntidade(Integer id);
-    void atualizarEntidade(Integer id, Entidades entidades);
+    void deletarEntidade(Long id);
+    void atualizarEntidade(Long id, Entidades entidades);
 }

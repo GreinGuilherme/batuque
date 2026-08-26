@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class EntidadeFiltroRequest {
 
-    private Integer id;
+    private Long id;
 
     @Size(max = 50, message = "Máximo de 50 caracteres.")
     private String nomeEntidade;

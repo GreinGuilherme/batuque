@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class PontoResponse {
 
-    private int id;
+    private Long id;
     private String nomePonto;
     private String pontoLetra;
     private String audioUrl;
     private String nomeEntidade;
-    private Integer entidadeId;
+    private Long entidadeId;
     private LinhaEntidadeEnum linhaEntidade;
 }

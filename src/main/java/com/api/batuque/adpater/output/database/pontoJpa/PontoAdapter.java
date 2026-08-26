@@ -38,8 +38,8 @@ public class PontoAdapter implements PontoRepositoryOutputPort {
     }
 
     @Override
-    public Optional<PontoEntidade> buscarPorId(Integer id) {
-        return pontoJpaRepository.findById(id)
+    public Optional<PontoEntidade> buscarPorId(Long id) {
+        return pontoJpaRepository.findById(id.intValue())
                 .map(pontoEntityMapper::dtoToModel);
     }
 
@@ -72,9 +72,9 @@ public class PontoAdapter implements PontoRepositoryOutputPort {
     }
 
     @Override
-    public void deletarPonto(Integer id, String nomePonto, String nomeEntidade) {
+    public void deletarPonto(Long id, String nomePonto, String nomeEntidade) {
         log.info("[DELETAR PONTO] - Iniciando processo para salvar o ponto");
-        pontoJpaRepository.deleteById(id);
+        pontoJpaRepository.deleteById(id.intValue());
         log.info("[DELETAR PONTO] - Ponto foi deletado com sucesso!");
     }
 

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class EntidadeResponse {
 
-    private int id;
+    private Long id;
     private String nomeEntidade;
     private String falange;
     private LinhaEntidadeEnum linhaEntidade;

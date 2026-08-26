@@ -57,14 +57,14 @@ public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
     }
 
     @Override
-    public void deletarEntidade(Integer entidadeId) {
+    public void deletarEntidade(Long entidadeId) {
         log.info("[DELETAR ENTIDADE] - Iniciando processo para deleção da entidade.");
         entidadeRepositoryOutputPort.deletarEntidade(entidadeId);
         log.info("[DELETAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
     }
 
     @Override
-    public void atualizarEntidade(Integer id, Entidades entidades) {
+    public void atualizarEntidade(Long id, Entidades entidades) {
         log.info("[ATUALIZAR ENTIDADE] - Processo para atualizar a entidade id: {}, foi iniciado.", id);
         Entidades entidadeExistente = entidadeRepositoryOutputPort.buscarEntidadesPorId(id);
 

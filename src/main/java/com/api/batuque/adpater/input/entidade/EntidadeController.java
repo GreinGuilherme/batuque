@@ -61,7 +61,7 @@ public class EntidadeController {
     }
 
     @DeleteMapping(value = "/deletar/{entidadeId}")
-    public ResponseEntity<?> deletarEntidade (@PathVariable Integer entidadeId) {
+    public ResponseEntity<?> deletarEntidade (@PathVariable Long entidadeId) {
         log.info("[DELETAR ENTIDADE] - Iniciando processo para deleção da entidade.");
         entidadeInputPort.deletarEntidade(entidadeId);
         log.info("[DELETAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
@@ -69,7 +69,7 @@ public class EntidadeController {
     }
 
     @PatchMapping(value = "/atualizar/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> altualizarPonto (@PathVariable Integer id,
+    public ResponseEntity<?> altualizarPonto (@PathVariable Long id,
                                               @RequestBody EntidadeRequest request) {
         log.info("[ATUALIZAR ENTIDADE] - Iniciando processo para atualizar da entidade id: {}", id);
         var response = entidadeRequestMapper.dtoToModel(request);

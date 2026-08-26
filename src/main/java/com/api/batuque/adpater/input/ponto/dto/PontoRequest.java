@@ -17,5 +17,5 @@ public class PontoRequest {
     private String pontoLetra;
 
     @NotNull(message = "ID da entidade é obrigatório")
-    private Integer entidadeId;
+    private Long entidadeId;
 }

@@ -53,15 +53,6 @@ public class GestaoPontosController {
         return ResponseEntity.ok().body(responselist);
     }
 
-//    @GetMapping(value = "/buscar/{nomeEntidade}")
-//    public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@PathVariable String nomeEntidade) {
-//        log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade: .", nomeEntidade);
-//        List<PontoEntidade> response = controlePonto.buscarPontosPorNomeEntidade(nomeEntidade);
-//        log.info("[BUSCAR PONTO] - Busca de pontos realizada com sucesso");
-//        List<PontoResponse> responselist = pontoRequestMapper.modelListToDtolist(response);
-//        return ResponseEntity.ok().body(responselist);
-//    }
-
     @GetMapping(value = "/buscar/filtro")
     public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@ModelAttribute PontoFiltroRequest request) {
         log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade.");
@@ -73,7 +64,7 @@ public class GestaoPontosController {
     }
 
     @DeleteMapping(value = "/deletar")
-    public ResponseEntity<?> deletarPontoPorEntidade(@RequestParam Integer id,
+    public ResponseEntity<?> deletarPontoPorEntidade(@RequestParam Long id,
                                                      @RequestParam String nomePonto,
                                                      @RequestParam String nomeEntidade) {
         log.info("[DELETAR PONTO] - Iniciando processo para deletar ponto: {} da entidade: {}.", nomePonto, nomeEntidade);
@@ -83,7 +74,7 @@ public class GestaoPontosController {
     }
 
     @PatchMapping(value = "/atualizar/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> altualizarPonto (@PathVariable Integer id,
+    public ResponseEntity<?> altualizarPonto (@PathVariable Long id,
                                               @RequestBody PontoRequest request) {
         log.info("[ATUALIZAR PONTO] - Iniciando processo para atualizar o ponto: {}", request.getNomePonto());
         var response = pontoRequestMapper.dtoToModel(request);

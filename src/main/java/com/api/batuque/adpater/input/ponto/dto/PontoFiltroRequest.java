@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PontoFiltroRequest {
-    private Integer id;
+    private Long id;
     private String nomePonto;
     private String pontoLetra;
     private String audioUrl;
     private String nomeEntidade;
-    private Integer entidadeId;
+    private Long entidadeId;
     private LinhaEntidadeEnum linhaEntidade;
 }

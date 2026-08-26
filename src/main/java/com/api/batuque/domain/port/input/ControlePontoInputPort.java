@@ -8,6 +8,6 @@ public interface ControlePontoInputPort {
     void salvarPonto(PontoEntidade controlePonto);
     List<PontoEntidade> buscarPontos();
     List<PontoEntidade> buscarPontosPorFiltro(PontoEntidade request);
-    void deletarPontoPorEntidade(Integer id, String nomePonto, String nomeEntidade);
-    void atualizarPonto(Integer id, PontoEntidade pontoEntidade);
+    void deletarPontoPorEntidade(Long id, String nomePonto, String nomeEntidade);
+    void atualizarPonto(Long id, PontoEntidade pontoEntidade);
 }

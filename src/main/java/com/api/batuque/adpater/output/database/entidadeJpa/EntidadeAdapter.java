@@ -42,7 +42,7 @@ public class EntidadeAdapter implements EntidadeRepositoryOutputPort {
     }
 
     @Override
-    public Entidades buscarEntidadesPorId(Integer entidadeId) {
+    public Entidades buscarEntidadesPorId(Long entidadeId) {
         log.info("[FILTRAR ENTIDADE] - Buscando entidade por ID: {}", entidadeId);
         return entidadeJpaRepository.findById(entidadeId)
                 .map(entidadeEntityMapper::dtoToModel)
@@ -70,7 +70,7 @@ public class EntidadeAdapter implements EntidadeRepositoryOutputPort {
     }
 
     @Override
-    public void deletarEntidade(Integer entidadeId) {
+    public void deletarEntidade(Long entidadeId) {
         log.info("[DELETAR ENTIDADE] - Verificar existencia da entidade por ID: {}", entidadeId);
         var result = buscarEntidadesPorId(entidadeId);
         log.info("[DELETAR ENTIDADE] - Deletando entidade por ID: {}", entidadeId);
