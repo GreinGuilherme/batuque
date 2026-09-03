@@ -16,5 +16,5 @@ public class Playlist {
     private Long id;
     private String nomePlaylist;
     private LocalDateTime dataCriacao;
-    private List<ItemPlaylist> itens;
+    private List<ItemPlaylist> pontos;
 }

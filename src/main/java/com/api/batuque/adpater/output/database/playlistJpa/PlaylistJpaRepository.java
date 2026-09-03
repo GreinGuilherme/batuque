@@ -24,7 +24,7 @@ public interface PlaylistJpaRepository extends JpaRepository<PlaylistEntity, Lon
     // Busca de playlists por nome parcial (case-insensitive)
     @Query("""
         SELECT p FROM PlaylistEntity p
-        WHERE LOWER(p.nome) LIKE LOWER(CONCAT('%', :nome, '%'))
+        WHERE LOWER(p.nomePlaylist) LIKE LOWER(CONCAT('%', :nome, '%'))
     """)
     List<PlaylistEntity> findByNomeContainingIgnoreCase(@Param("nome") String nome);
 

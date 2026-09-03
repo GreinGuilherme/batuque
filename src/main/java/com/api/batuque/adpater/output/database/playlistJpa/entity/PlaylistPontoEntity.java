@@ -11,6 +11,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "playlist_ponto")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class PlaylistPontoEntity {
 
     @EmbeddedId

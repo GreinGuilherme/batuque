@@ -1,6 +1,7 @@
 package com.api.batuque.adpater.output.database.playlistJpa;
 
 import com.api.batuque.adpater.output.database.playlistJpa.entity.PlaylistEntity;
+import com.api.batuque.adpater.output.database.playlistJpa.entity.PlaylistPontoIdEntity;
 import com.api.batuque.adpater.output.database.playlistJpa.mapper.PlaylistEntityMapper;
 import com.api.batuque.domain.model.Playlist;
 import com.api.batuque.domain.port.output.PlaylistRepositoryOutputPort;
@@ -27,7 +28,15 @@ public class PlaylistAdapter implements PlaylistRepositoryOutputPort {
 
         // Garante que o vínculo bidirecional da relação 1:N seja preenchido antes de salvar
         if (entity.getPontos() != null) {
-            entity.getPontos().forEach(item -> item.setPlaylist(entity));
+            entity.getPontos().forEach(item -> {
+                item.setPlaylist(entity);
+                if (item.getId() == null) {
+                    item.setId(new PlaylistPontoIdEntity());
+                }
+                if (item.getPonto() != null) {
+                    item.getId().setPontoId(item.getPonto().getId());
+                }
+            });
         }
 
         PlaylistEntity saved = playlistJpaRepository.save(entity);
