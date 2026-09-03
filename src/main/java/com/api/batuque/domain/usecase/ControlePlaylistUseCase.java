@@ -25,7 +25,10 @@ public class ControlePlaylistUseCase implements ControlePlaylistInputPort {
 
     @Override
     public List<Playlist> buscarPlaylist() {
-        return List.of();
+        log.info("[BUSCAR PLAYLIST] - Iniciando processo para buscar todas playlist");
+        List<Playlist> result = playlistRepositoryOutputPort.buscarTodasPlaylist();
+        log.info("[BUSCAR PLAYLIST] - Busca por todas as playlist finalizada.");
+        return result;
     }
 
     @Override

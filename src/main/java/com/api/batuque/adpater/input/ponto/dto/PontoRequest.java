@@ -18,4 +18,6 @@ public class PontoRequest {
 
     @NotNull(message = "ID da entidade é obrigatório")
     private Long entidadeId;
+
+    private String audioUrl;
 }

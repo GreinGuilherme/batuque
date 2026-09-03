@@ -46,7 +46,7 @@ public class PlaylistAdapter implements PlaylistRepositoryOutputPort {
     @Override
     public List<Playlist> buscarTodasPlaylist() {
         log.info("[PLAYLIST ADAPTER] - Buscando todas as playlists");
-        return playlistJpaRepository.findAll().stream()
+        return playlistJpaRepository.findAllWithPontos().stream()
                 .map(playlistEntityMapper::entityToModel)
                 .toList();
     }

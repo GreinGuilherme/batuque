@@ -37,7 +37,7 @@ public class GestaoPlaylistController {
     }
 
     @GetMapping(value = "/buscar")
-    public ResponseEntity<List<PlaylistResponse>> buscarTodosPontos() {
+    public ResponseEntity<List<PlaylistResponse>> buscarTodasPlaylist() {
         log.info("[BUSCAR PLAYLIST] - Iniciando processo para buscar todas as playlist.");
         List<Playlist> response = controlePlaylist.buscarPlaylist();
         log.info("[BUSCAR PLAYLIST] - Busca de todos as playlist realizada com sucesso");

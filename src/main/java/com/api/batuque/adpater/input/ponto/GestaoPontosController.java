@@ -7,6 +7,7 @@ import com.api.batuque.adpater.input.ponto.mapper.PontoFiltroRequestMapper;
 import com.api.batuque.adpater.input.ponto.mapper.PontoRequestMapper;
 import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.input.ControlePontoInputPort;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +75,7 @@ public class GestaoPontosController {
     }
 
     @PatchMapping(value = "/atualizar/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> altualizarPonto (@PathVariable Long id,
+    public ResponseEntity<?> altualizarPonto (@PathVariable @NotNull Long id,
                                               @RequestBody PontoRequest request) {
         log.info("[ATUALIZAR PONTO] - Iniciando processo para atualizar o ponto: {}", request.getNomePonto());
         var response = pontoRequestMapper.dtoToModel(request);
