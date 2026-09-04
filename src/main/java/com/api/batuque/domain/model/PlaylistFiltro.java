@@ -1,4 +1,4 @@
-package com.api.batuque.adpater.input.playlist.dto;
+package com.api.batuque.domain.model;
 
 import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PlaylistFiltroRequest {
+public class PlaylistFiltro {
     private Long playlistId;
     private String playlistNome;
     private Long entidadeId;

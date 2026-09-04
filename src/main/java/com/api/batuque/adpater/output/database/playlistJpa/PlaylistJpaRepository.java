@@ -2,15 +2,15 @@ package com.api.batuque.adpater.output.database.playlistJpa;
 
 import com.api.batuque.adpater.output.database.playlistJpa.entity.PlaylistEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface PlaylistJpaRepository extends JpaRepository<PlaylistEntity, Long> {
+public interface PlaylistJpaRepository extends JpaRepository<PlaylistEntity, Long>, JpaSpecificationExecutor<PlaylistEntity> {
 
     // Query especializada para saber se um ponto específico já está na playlist
     @Query("""
@@ -28,7 +28,7 @@ public interface PlaylistJpaRepository extends JpaRepository<PlaylistEntity, Lon
         LEFT JOIN FETCH pt.entidade
         WHERE p.id = :id
     """)
-    Optional<PlaylistEntity> findByIdWithPontos(@Param("id") Long id);
+    List<PlaylistEntity> findByIdWithPontos(@Param("id") Long id);
 
     @Query("""
         SELECT DISTINCT p FROM PlaylistEntity p

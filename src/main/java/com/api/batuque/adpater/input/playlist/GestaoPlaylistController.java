@@ -1,9 +1,12 @@
 package com.api.batuque.adpater.input.playlist;
 
+import com.api.batuque.adpater.input.playlist.dto.PlaylistFiltroRequest;
 import com.api.batuque.adpater.input.playlist.dto.PlaylistRequest;
 import com.api.batuque.adpater.input.playlist.dto.PlaylistResponse;
 import com.api.batuque.adpater.input.playlist.mapper.PlaylistRequestMapper;
+import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import com.api.batuque.domain.model.Playlist;
+import com.api.batuque.domain.model.PlaylistFiltro;
 import com.api.batuque.domain.port.input.ControlePlaylistInputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -45,15 +49,23 @@ public class GestaoPlaylistController {
         return ResponseEntity.ok().body(responselist);
     }
 
-//    @GetMapping(value = "/buscar/filtro")
-//    public ResponseEntity<PlaylistResponse> buscarPontosPorEntidade(@ModelAttribute PlaylistFiltroRequest request) {
-//        log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade.");
-//        PontoEntidade domain = playlistRequestMapper.dtoToModel(request);
-//        List<PontoEntidade> response = controlePlaylist.buscarPlaylistPorFiltro(domain);
-//        log.info("[BUSCAR PONTO] - Busca de pontos realizada com sucesso");
-//        List<PontoResponse> responselist = playlistRequestMapper.modelListToDtolist(response);
-//        return ResponseEntity.ok().body(responselist);
-//    }
+    @GetMapping(value = "/buscar/filtro")
+    public ResponseEntity<List<PlaylistResponse>> buscarPontosPorEntidade(@RequestParam(required = false) Long playlistId,
+                                                                          @RequestParam(required = false) String playlistNome,
+                                                                          @RequestParam(required = false) Long entidadeId,
+                                                                          @RequestParam(required = false) Long pontoId,
+                                                                          @RequestParam(required = false) LinhaEntidadeEnum linhaEntidade,
+                                                                          @RequestParam(required = false) String nomePonto,
+                                                                          @RequestParam(required = false) String nomeEntidade,
+                                                                          @RequestParam(required = false) String pontoLetra) {
+        log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade.");
+        PlaylistFiltroRequest request = new PlaylistFiltroRequest(playlistId, playlistNome, entidadeId, pontoId, linhaEntidade, nomePonto, nomeEntidade, pontoLetra);
+        PlaylistFiltro domain = playlistRequestMapper.filtroToDomain(request);
+        List<Playlist> response = controlePlaylist.buscarPlaylistPorFiltro(domain);
+        log.info("[BUSCAR PONTO] - Busca de pontos realizada com sucesso");
+        List<PlaylistResponse> responselist = playlistRequestMapper.modelListToDtolist(response);
+        return ResponseEntity.ok().body(responselist);
+    }
 //
 //    @DeleteMapping(value = "/deletar")
 //    public ResponseEntity<?> deletarPontoPorEntidade(@RequestParam Long id,

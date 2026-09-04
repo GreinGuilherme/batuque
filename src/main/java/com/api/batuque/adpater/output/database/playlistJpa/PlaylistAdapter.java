@@ -4,9 +4,11 @@ import com.api.batuque.adpater.output.database.playlistJpa.entity.PlaylistEntity
 import com.api.batuque.adpater.output.database.playlistJpa.entity.PlaylistPontoIdEntity;
 import com.api.batuque.adpater.output.database.playlistJpa.mapper.PlaylistEntityMapper;
 import com.api.batuque.domain.model.Playlist;
+import com.api.batuque.domain.model.PlaylistFiltro;
 import com.api.batuque.domain.port.output.PlaylistRepositoryOutputPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,21 +52,16 @@ public class PlaylistAdapter implements PlaylistRepositoryOutputPort {
                 .map(playlistEntityMapper::entityToModel)
                 .toList();
     }
-//
-//    @Override
-//    public Optional<Playlist> buscarPorId(Long id) {
-//        log.info("[PLAYLIST ADAPTER] - Buscando playlist por ID: {}", id);
-//        return playlistJpaRepository.findByIdWithPontos(id)
-//                .map(playlistEntityMapper::entityToModel);
-//    }
-//
-//    @Override
-//    public List<Playlist> buscarPorNome(String nome) {
-//        log.info("[PLAYLIST ADAPTER] - Buscando playlist por termo de nome: {}", nome);
-//        return playlistJpaRepository.findByNomeContainingIgnoreCase(nome).stream()
-//                .map(playlistEntityMapper::entityToModel)
-//                .toList();
-//    }
+
+    @Override
+    public List<Playlist> buscarPorFiltro(PlaylistFiltro request) {
+        log.info("[PLAYLIST ADAPTER] - Persisindo na busca de playlist...");
+        Specification<PlaylistEntity> spec = PlaylistSpecifications.comFiltro(request);
+        List<PlaylistEntity> entities = playlistJpaRepository.findAll(spec);
+        return entities.stream()
+                .map(playlistEntityMapper::entityToModel)
+                .toList();
+    }
 //
 //    @Override
 //    @Transactional

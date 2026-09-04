@@ -2,10 +2,12 @@ package com.api.batuque.adpater.input.playlist.mapper;
 
 import com.api.batuque.adpater.input.playlist.dto.ItemPlaylistRequest;
 import com.api.batuque.adpater.input.playlist.dto.ItemPlaylistResponse;
+import com.api.batuque.adpater.input.playlist.dto.PlaylistFiltroRequest;
 import com.api.batuque.adpater.input.playlist.dto.PlaylistRequest;
 import com.api.batuque.adpater.input.playlist.dto.PlaylistResponse;
 import com.api.batuque.domain.model.ItemPlaylist;
 import com.api.batuque.domain.model.Playlist;
+import com.api.batuque.domain.model.PlaylistFiltro;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -23,6 +25,8 @@ public interface PlaylistRequestMapper {
 
     @Mapping(target = "ponto.id", source = "pontoId")
     ItemPlaylist itemDtoToModel(ItemPlaylistRequest itemRequest);
+
+    PlaylistFiltro filtroToDomain(PlaylistFiltroRequest playlistFiltroRequest);
 
     // Saída (GET)
     @Mapping(target = "nome", source = "nomePlaylist")

@@ -1,6 +1,7 @@
 package com.api.batuque.domain.usecase;
 
 import com.api.batuque.domain.model.Playlist;
+import com.api.batuque.domain.model.PlaylistFiltro;
 import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.input.ControlePlaylistInputPort;
 import com.api.batuque.domain.port.output.PlaylistRepositoryOutputPort;
@@ -32,8 +33,11 @@ public class ControlePlaylistUseCase implements ControlePlaylistInputPort {
     }
 
     @Override
-    public List<PontoEntidade> buscarPlaylistPorFiltro(PontoEntidade request) {
-        return List.of();
+    public List<Playlist> buscarPlaylistPorFiltro(PlaylistFiltro request) {
+        log.info("[BUSCAR PLAYLIST] - Iniciando processo para buscar todas playlist");
+        List<Playlist> result = playlistRepositoryOutputPort.buscarPorFiltro(request);
+        log.info("[BUSCAR PLAYLIST] - Busca por todas as playlist finalizada.");
+        return result;
     }
 
     @Override
