@@ -7,8 +7,6 @@ import com.api.batuque.domain.port.output.PontoRepositoryOutputPort;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -42,28 +40,9 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
     @Override
     public List<PontoEntidade> buscarPontosPorFiltro(PontoEntidade request) {
         log.info("[BUSCAR PONTO] - Iniciando busca por filtro!");
-
-        if (request.getId() != null) {
-            log.info("[BUSCAR PONTO] - Iniciando busca ponto por id: {}.", request.getId());
-            return pontoRepositoryOutputPort.buscarPorId(request.getId()).stream().toList();
-        }
-        if (request.getNomePonto() != null && !request.getNomePonto().isBlank()) {
-            log.info("[BUSCAR PONTO] - Iniciando busca por nome do ponto: {}.", request.getNomePonto());
-            return pontoRepositoryOutputPort.buscarPontosPorNomePontos(request.getNomePonto());
-        }
-        if (request.getPontoLetra() != null && !request.getPontoLetra().isBlank()) {
-            log.info("[BUSCAR PONTO] - Iniciando busca ponto por letra.");
-            return pontoRepositoryOutputPort.buscarPontosPorPontoLetra(request.getPontoLetra());
-        }
-        if (request.getNomeEntidade() != null && !request.getNomeEntidade().isBlank()) {
-            log.info("[BUSCAR PONTO] - Iniciando busca por nome da entidade: {}.", request.getNomeEntidade());
-            return pontoRepositoryOutputPort.buscarPontosNomeEntidade(request.getNomeEntidade());
-        }
-        if (request.getLinhaEntidade() != null) {
-            log.info("[BUSCAR PONTO] - Iniciando busca por falange da entidade: {}.", request.getEntidadeId());
-            return pontoRepositoryOutputPort.buscarPontosPorLinhaEntidade(request.getLinhaEntidade());
-        }
-        throw HttpClientErrorException.NotFound.create(HttpStatus.NOT_FOUND, "Not Found", null, null, null);
+        List<PontoEntidade> result = pontoRepositoryOutputPort.buscarPontosPorFiltro(request);
+        log.info("[BUSCAR PONTO] - Iniciando busca ponto por id: {}.", request.getId());
+        return result;
     }
 
     @Override

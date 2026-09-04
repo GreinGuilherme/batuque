@@ -2,12 +2,12 @@ package com.api.batuque.adpater.output.database.pontoJpa;
 
 import com.api.batuque.adpater.output.database.pontoJpa.entity.ControlePontoEntity;
 import com.api.batuque.adpater.output.database.pontoJpa.mapper.PontoEntityMapper;
-import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.output.PontoRepositoryOutputPort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -44,31 +44,13 @@ public class PontoAdapter implements PontoRepositoryOutputPort {
     }
 
     @Override
-    public List<PontoEntidade> buscarPontosPorNomePontos(String nomePonto) {
-        log.info("[BUSCAR PONTO] - Buscando ponto com nome: {}", nomePonto);
-        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomePonto(nomePonto);
-        return pontoEntityMapper.entityListtoModelList(pontos);
-    }
-
-    @Override
-    public List<PontoEntidade> buscarPontosPorPontoLetra(String pontoLetra) {
-        log.info("[BUSCAR PONTO] - Buscando ponto pela letra: {}", pontoLetra);
-        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorPontoLetra(pontoLetra);
-        return pontoEntityMapper.entityListtoModelList(pontos);
-    }
-
-    @Override
-    public List<PontoEntidade> buscarPontosNomeEntidade(String nomeEntidade) {
-        log.info("[BUSCAR PONTO] - Buscando pontos associados ao nome da entidade: {}", nomeEntidade);
-        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorNomeEntidade(nomeEntidade);
-        return pontoEntityMapper.entityListtoModelList(pontos);
-    }
-
-    @Override
-    public List<PontoEntidade> buscarPontosPorLinhaEntidade(LinhaEntidadeEnum linhaEntidade) {
-        log.info("[BUSCAR PONTO] - Buscando pontos associados à linha da entidade: {}", linhaEntidade.getDescrition());
-        List<ControlePontoEntity> pontos = pontoJpaRepository.buscarPorLinhaEntidade(linhaEntidade);
-        return pontoEntityMapper.entityListtoModelList(pontos);
+    public List<PontoEntidade> buscarPontosPorFiltro(PontoEntidade request) {
+        log.info("[BUSCAR PONTO] - Persisindo na busca de playlist...");
+        Specification<ControlePontoEntity> spec = PontoSpecifications.comFiltro(request);
+        List<ControlePontoEntity> entities = pontoJpaRepository.findAll(spec);
+        return entities.stream()
+                .map(pontoEntityMapper::dtoToModel)
+                .toList();
     }
 
     @Override

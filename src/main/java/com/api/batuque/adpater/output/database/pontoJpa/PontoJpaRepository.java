@@ -3,6 +3,7 @@ package com.api.batuque.adpater.output.database.pontoJpa;
 import com.api.batuque.adpater.output.database.pontoJpa.entity.ControlePontoEntity;
 import com.api.batuque.domain.enums.LinhaEntidadeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PontoJpaRepository extends JpaRepository<ControlePontoEntity, Integer> {
+public interface PontoJpaRepository extends JpaRepository<ControlePontoEntity, Integer>, JpaSpecificationExecutor<ControlePontoEntity> {
 
     @Query("""
         SELECT p FROM ControlePontoEntity p 
