@@ -2,7 +2,6 @@ package com.api.batuque.domain.usecase;
 
 import com.api.batuque.domain.model.Playlist;
 import com.api.batuque.domain.model.PlaylistFiltro;
-import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.input.ControlePlaylistInputPort;
 import com.api.batuque.domain.port.output.PlaylistRepositoryOutputPort;
 import lombok.AllArgsConstructor;
@@ -41,12 +40,16 @@ public class ControlePlaylistUseCase implements ControlePlaylistInputPort {
     }
 
     @Override
-    public void deletarPlaylistPorEntidade(Long id, String nomePonto, String nomeEntidade) {
-
+    public void deletarPlaylistPorId(Long id, String nomePonto, String nomeEntidade) {
+        log.info("[DELETAR PLAYLIST] - Iniciando processo para deletar playlist: {} da entidade: {}.", nomePonto, nomeEntidade);
+        playlistRepositoryOutputPort.deletarPlaylist(id);
+        log.info("[DELETAR PLAYLIST] - Processo para deletar playlist: {} da entidade: {}, foi concluido.", nomePonto, nomeEntidade);
     }
 
     @Override
-    public void atualizarPlaylist(Long id, PontoEntidade pontoEntidade) {
-
+    public void atualizarPlaylist(Long id, Playlist request) {
+        log.info("[ATUALIZAR PLAYLIST] - Iniciando processo para atualizar playlist: {}.", request.getNomePlaylist());
+        playlistRepositoryOutputPort.atualizarPlaylist(id, request);
+        log.info("[ATUALIZAR PLAYLIST] - Processo para atualizar playlist: {}, foi concluido.", request.getNomePlaylist());
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PlaylistJpaRepository extends JpaRepository<PlaylistEntity, Long>, JpaSpecificationExecutor<PlaylistEntity> {
@@ -28,7 +29,7 @@ public interface PlaylistJpaRepository extends JpaRepository<PlaylistEntity, Lon
         LEFT JOIN FETCH pt.entidade
         WHERE p.id = :id
     """)
-    List<PlaylistEntity> findByIdWithPontos(@Param("id") Long id);
+    Optional<PlaylistEntity> findByIdWithPontos(@Param("id") Long id);
 
     @Query("""
         SELECT DISTINCT p FROM PlaylistEntity p

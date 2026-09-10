@@ -9,7 +9,6 @@ public interface PlaylistRepositoryOutputPort {
     Playlist salvarPlaylist(Playlist playlist);
     List<Playlist> buscarTodasPlaylist();
     List<Playlist> buscarPorFiltro(PlaylistFiltro playlistId);
-
-//    void deletarPlaylist(Long id);
-//    boolean existePontoNaPlaylist(Long playlistId, Long pontoId);
+    void deletarPlaylist(Long id);
+    void atualizarPlaylist(Long id, Playlist playlist);
 }

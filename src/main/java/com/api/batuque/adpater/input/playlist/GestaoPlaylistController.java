@@ -11,8 +11,11 @@ import com.api.batuque.domain.port.input.ControlePlaylistInputPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,32 +61,32 @@ public class GestaoPlaylistController {
                                                                           @RequestParam(required = false) String nomePonto,
                                                                           @RequestParam(required = false) String nomeEntidade,
                                                                           @RequestParam(required = false) String pontoLetra) {
-        log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade.");
+        log.info("[BUSCAR PLAYLIST] - Iniciando processo para buscar pontos da entidade.");
         PlaylistFiltroRequest request = new PlaylistFiltroRequest(playlistId, playlistNome, entidadeId, pontoId, linhaEntidade, nomePonto, nomeEntidade, pontoLetra);
         PlaylistFiltro domain = playlistRequestMapper.filtroToDomain(request);
         List<Playlist> response = controlePlaylist.buscarPlaylistPorFiltro(domain);
-        log.info("[BUSCAR PONTO] - Busca de pontos realizada com sucesso");
+        log.info("[BUSCAR PLAYLIST] - Busca de pontos realizada com sucesso");
         List<PlaylistResponse> responselist = playlistRequestMapper.modelListToDtolist(response);
         return ResponseEntity.ok().body(responselist);
     }
-//
-//    @DeleteMapping(value = "/deletar")
-//    public ResponseEntity<?> deletarPontoPorEntidade(@RequestParam Long id,
-//                                                     @RequestParam String nomePonto,
-//                                                     @RequestParam String nomeEntidade) {
-//        log.info("[DELETAR PONTO] - Iniciando processo para deletar ponto: {} da entidade: {}.", nomePonto, nomeEntidade);
-//        controlePlaylist.deletarPlaylistPorEntidade(id, nomePonto, nomeEntidade);
-//        log.info("[DELETAR PONTO] - Deleção de ponto: {} da entidade: {} realizada com sucesso.", nomePonto, nomeEntidade);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @PatchMapping(value = "/atualizar/{id}", produces = APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> altualizarPonto (@PathVariable Long id,
-//                                              @RequestBody PontoRequest request) {
-//        log.info("[ATUALIZAR PONTO] - Iniciando processo para atualizar o ponto: {}", request.getNomePonto());
-//        var response = playlistRequestMapper.dtoToModel(request);
-//        controlePlaylist.atualizarPlaylist(id, response);
-//        log.info("[ATUALIZAR PONTO] - Atualização realizada com sucesso");
-//        return ResponseEntity.ok().build();
-//    }
+
+    @DeleteMapping(value = "/deletar")
+    public ResponseEntity<?> deletarPlaylistPorId(@RequestParam Long id,
+                                                  @RequestParam(required = false) String nomePonto,
+                                                  @RequestParam(required = false) String nomeEntidade) {
+        log.info("[DELETAR PLAYLIST] - Iniciando processo para deletar playlist: {} da entidade: {}.", nomePonto, nomeEntidade);
+        controlePlaylist.deletarPlaylistPorId(id, nomePonto, nomeEntidade);
+        log.info("[DELETAR PLAYLIST] - Deleção de playlist: {} da entidade: {} realizada com sucesso.", nomePonto, nomeEntidade);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/atualizar/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> altualizarPlaylist (@PathVariable Long id,
+                                                 @RequestBody PlaylistRequest request) {
+        log.info("[ATUALIZAR PLAYLIST] - Iniciando processo para atualizar o playlist: {}", request.getNomePlaylist());
+        var response = playlistRequestMapper.dtoToModel(request);
+        controlePlaylist.atualizarPlaylist(id, response);
+        log.info("[ATUALIZAR PLAYLIST] - Atualização realizada com sucesso");
+        return ResponseEntity.ok().build();
+    }
 }
