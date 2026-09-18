@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.api.batuque.config.security.AutenticacaoService.registerUser;
 
+
 @Slf4j
 @AllArgsConstructor
 @RestController
