@@ -16,6 +16,6 @@ public class LoginRequest {
     private String email;
 
     @NotNull(message = "Não pode ser nullo.")
-    @Size(max = 12, message = "Máximo de 12 caracteres.")
+    @Size(min = 6, max = 12, message = "Minimo de 6 e Máximo de 12 caracteres.")
     private String senha;
 }

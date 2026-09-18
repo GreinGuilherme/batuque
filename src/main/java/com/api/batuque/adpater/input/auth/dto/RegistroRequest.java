@@ -25,6 +25,5 @@ public class RegistroRequest {
     private String senha;
 
     @NotNull(message = "Não pode ser nullo.")
-    @Size(max = 12, message = "Máximo de 12 caracteres.")
     private UsuarioRoleEnum role;
 }

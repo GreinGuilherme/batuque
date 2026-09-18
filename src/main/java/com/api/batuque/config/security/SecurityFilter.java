@@ -12,13 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
 
-@Component
+@Service
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -46,6 +46,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 .authorizeHttpRequests(authorize -> authorize
                         // 1. Libera a rota de Login (se você já tiver criado o AuthController)
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/registrar").permitAll()
                         .requestMatchers(HttpMethod.GET, "/entidade/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gestaopontos/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/playlist/buscar/**").permitAll()
@@ -54,6 +55,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 // .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
