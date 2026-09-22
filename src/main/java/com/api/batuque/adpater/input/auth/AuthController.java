@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.api.batuque.config.security.AutenticacaoService.registerUser;
-
 
 @Slf4j
 @AllArgsConstructor
@@ -49,9 +47,9 @@ public class AuthController {
 
         log.info("[CADASTRO LOGIN] - Gerando token para o usuário");
         var token = tokenService.gerarToken(auth.getPrincipal().toString());
-        String tokenFormad = ("Bearer " + token);
+        //String tokenFormad = ("Bearer " + token);
         log.info("[CADASTRO LOGIN] - Login do usuário efetuado com sucesso");
-        return ResponseEntity.ok(new LoginResponse(tokenFormad));
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/registrar")
@@ -63,7 +61,7 @@ public class AuthController {
 
         //String senhaCriptografada = new BCryptPasswordEncoder().encode(registro.getSenha());
         log.info("[CADASTRO LOGIN] - Processando senha do usuário");
-        String senhaCriptografada = registerUser(registro.getSenha());
+        String senhaCriptografada = passwordEncoder.encode(registro.getSenha());
         UsuarioEntity novoUsuario = new UsuarioEntity(null, registro.getNome(), registro.getEmail(), senhaCriptografada, registro.getRole());
 
         this.repository.save(novoUsuario);

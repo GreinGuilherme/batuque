@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,24 +24,18 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new Argon2PasswordEncoder(
-                16,    // salt length
-                32,    // hash length
-                1,     // parallelism
-                65536, // memória (64MB)
-                3      // iterações
-        );
+        return new Argon2PasswordEncoder(16, 32, 1, 65536, 3);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable()) // Desabilita proteção CSRF para APIs REST
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        // 1. Libera a rota de Login (se você já tiver criado o AuthController)
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/registrar").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Libera Preflight
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/entidade/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gestaopontos/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/playlist/buscar/**").permitAll()
