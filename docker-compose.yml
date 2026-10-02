@@ -17,8 +17,7 @@ services:
       retries: 10
 
   batuque:
-    build:
-      context: .
+    image: ${DOCKER_USER}/batuque-api:latest
     container_name: batuque-api
     restart: on-failure
     ports:
