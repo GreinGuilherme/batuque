@@ -1,4 +1,4 @@
-name: core-api-pipeline
+name: batuque-api-pipeline
 
 on:
   push:
@@ -29,11 +29,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: build and Push Docker Image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/batuque-api:latest
-            ${{ secrets.DOCKER_TOKEN }}/batuque-api:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/batuque-api:${{ github.sha }}
