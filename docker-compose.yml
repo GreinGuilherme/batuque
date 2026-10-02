@@ -27,9 +27,9 @@ services:
         condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=production
-      - DB_URL=jdbc:mysql://db:3306/batuquedb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - DB_URL=jdbc:mysql://db:3306/batuqueDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - DB_USER=root
-      - DB_PASS=root
+      - DB_PASS=${DB_PASSWORD}
 
 volumes:
   db_data:
