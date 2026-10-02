@@ -35,5 +35,5 @@ jobs:
           # AQUI ESTÁ O SEGREDO: Compilar para amd64 (PC normal) e arm64 (Oracle VPS)
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ toLower(secrets.DOCKER_USERNAME) }}/batuque-api:latest
-            ${{ toLower(secrets.DOCKER_USERNAME) }}/batuque-api:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/batuque-api:latest
+            ${{ secrets.DOCKER_USERNAME }}/batuque-api:${{ github.sha }}
