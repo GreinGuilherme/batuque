@@ -4,8 +4,8 @@ services:
     container_name: batuque-db
     restart: always
     environment:
-      MYSQL_DATABASE: batuquedb
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: batuqueDB
+      MYSQL_ROOT_PASSWORD: ${DB_PASSQORD}
     ports:
       - "3307:3306"
     volumes:
