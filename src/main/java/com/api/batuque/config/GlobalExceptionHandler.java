@@ -1,5 +1,6 @@
 package com.api.batuque.config;
 
+import com.api.batuque.domain.Exception.ForbiddenException;
 import com.api.batuque.domain.Exception.UnauthorizedException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,8 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<Map<String, Object>> handleForbiddenException(UnauthorizedException ex) {
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Map<String, Object>> handleForbiddenException(ForbiddenException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
                 "timestamp", LocalDateTime.now(),
                 "status", 403,
