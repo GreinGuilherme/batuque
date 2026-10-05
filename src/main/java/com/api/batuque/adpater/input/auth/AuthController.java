@@ -6,6 +6,7 @@ import com.api.batuque.adpater.input.auth.dto.RegistroRequest;
 import com.api.batuque.adpater.output.database.usuarioJpa.UsuarioJpaRepository;
 import com.api.batuque.adpater.output.database.usuarioJpa.entity.UsuarioEntity;
 import com.api.batuque.config.security.TokenService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,11 @@ public class AuthController {
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         log.info("[CADASTRO LOGIN] - Gerando token para o usuário");
-        var token = tokenService.gerarToken(auth.getPrincipal().toString());
+        UsuarioEntity user = (UsuarioEntity) auth.getPrincipal();
+        if (user == null) {
+           throw new EntityNotFoundException("Usuário não existe");
+        }
+        var token = tokenService.gerarToken(user);
         //String tokenFormad = ("Bearer " + token);
         log.info("[CADASTRO LOGIN] - Login do usuário efetuado com sucesso");
         return ResponseEntity.ok(new LoginResponse(token));
