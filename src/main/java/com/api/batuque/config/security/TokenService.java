@@ -1,11 +1,13 @@
 package com.api.batuque.config.security;
 
+import com.api.batuque.adpater.output.database.usuarioJpa.entity.UsuarioEntity;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -16,12 +18,14 @@ public class TokenService {
     @Value("${api.security.token.secret:chave_secreta_padrao_trocar_em_prod}")
     private String secret;
 
-    public String gerarToken(String username) {
+    public String gerarToken(UsuarioEntity username) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("batuque-api")
-                    .withSubject(username)
+                    .withSubject(username.getEmail())
+                    .withClaim("nome", username.getNome())
+                    .withClaim("role", username.getRole().name())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
