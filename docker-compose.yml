@@ -7,7 +7,7 @@ services:
       MYSQL_DATABASE: batuqueDB
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "3307:3306"
+      - "3307:3306" # Banco pode ficar exposto se precisar de acesso remoto, senão, use 'expose'
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
@@ -20,16 +20,36 @@ services:
     image: ${DOCKER_USER}/batuque-api:latest
     container_name: batuque-api
     restart: on-failure
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080" # 'expose' libera apenas para a rede interna do Docker, daí
     depends_on:
       db:
         condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=production
-      - DB_URL=jdbc:mysql://db:3306/batuqueDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - DB_URL=jdbc:mysql://db:3306/batuquedb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - DB_USER=root
       - DB_PASS=${DB_PASSWORD}
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - batuque
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
 
 volumes:
   db_data:

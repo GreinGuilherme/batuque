@@ -1,0 +1,7 @@
+package com.api.batuque.domain.Exception;
+
+public class UnauthorizedException extends RuntimeException{
+    public UnauthorizedException(String message) {
+        super(message);
+    }
+}
