@@ -3,9 +3,11 @@ package com.api.batuque.domain.usecase;
 import com.api.batuque.domain.model.Entidades;
 import com.api.batuque.domain.port.input.ControleEntidadeInputPort;
 import com.api.batuque.domain.port.output.EntidadeRepositoryOutputPort;
+import com.api.batuque.domain.utils.SyncEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -15,14 +17,15 @@ import java.util.List;
 public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
 
     private final EntidadeRepositoryOutputPort entidadeRepositoryOutputPort;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public void salvarEntidade(Entidades entidade) {
         log.info("[SALVAR ENTIDADE] - Iniciando processo para salvar entidade: ", entidade.getNomeEntidade());
         entidade.setNomeEntidade(entidade.getNomeEntidade().trim());
         entidadeRepositoryOutputPort.incluirEntidade(entidade);
-        log.info("[SALVAR ENTIDADE] - Entidade salvo com sucesso.");
-    }
+        messagingTemplate.convertAndSend("/topic/entidade", new SyncEvent<>("CREATE", entidade));
+        log.info("[SALVAR ENTIDADE] - Entidade salvo com sucesso.");}
 
     @Override
     public List<Entidades> buscarEntidades() {
@@ -60,6 +63,7 @@ public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
     public void deletarEntidade(Long entidadeId) {
         log.info("[DELETAR ENTIDADE] - Iniciando processo para deleção da entidade.");
         entidadeRepositoryOutputPort.deletarEntidade(entidadeId);
+        messagingTemplate.convertAndSend("/topic/entidade", new SyncEvent<>("DELETE", entidadeId));
         log.info("[DELETAR ENTIDADE] - Busca de todas as entidades realizada com sucesso");
     }
 
@@ -79,6 +83,6 @@ public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
         }
 
         entidadeRepositoryOutputPort.incluirEntidade(entidadeExistente);
-        log.info("[ATUALIZAR ENTIDADE] - Entidade salva com sucesso!");
-    }
+        messagingTemplate.convertAndSend("/topic/entidade", new SyncEvent<>("UPDATE", entidadeExistente));
+        log.info("[ATUALIZAR ENTIDADE] - Entidade salva com sucesso!");}
 }

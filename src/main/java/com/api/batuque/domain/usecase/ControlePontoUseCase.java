@@ -4,9 +4,11 @@ import com.api.batuque.domain.model.PontoEntidade;
 import com.api.batuque.domain.port.input.ControlePontoInputPort;
 import com.api.batuque.domain.port.output.EntidadeRepositoryOutputPort;
 import com.api.batuque.domain.port.output.PontoRepositoryOutputPort;
+import com.api.batuque.domain.utils.SyncEvent;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
 
     private final PontoRepositoryOutputPort pontoRepositoryOutputPort;
     private final EntidadeRepositoryOutputPort entidadeRepositoryOutputPort;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public void salvarPonto(PontoEntidade controlePonto) {
@@ -26,6 +29,7 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
         controlePonto.setEntidadeId(entidade.getId());
         controlePonto.setLinhaEntidade(entidade.getLinhaEntidade());
         pontoRepositoryOutputPort.incluirPonto(controlePonto);
+        messagingTemplate.convertAndSend("/topic/ponto", new SyncEvent<>("CREATE", controlePonto));
         log.info("[SALVAR PONTO] - Ponto salvo com sucesso!");
     }
 
@@ -49,6 +53,7 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
     public void deletarPontoPorEntidade(Long id, String nomePonto, String nomeEntidade) {
         log.info("[DELETAR PONTO] - Iniciando processo para deletar o ponto: {} da entidade: {}", nomePonto, nomeEntidade);
         pontoRepositoryOutputPort.deletarPonto(id, nomePonto, nomeEntidade);
+        messagingTemplate.convertAndSend("/topic/ponto", new SyncEvent<>("DELETE", id));
         log.info("[DELETAR PONTO] - Processo de deleção completo!");
     }
 
@@ -74,6 +79,7 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
         }
 
         pontoRepositoryOutputPort.atualizarPonto(pontoExistente);
+        messagingTemplate.convertAndSend("/topic/ponto", new SyncEvent<>("UPDATE", pontoExistente));
         log.info("[ATUALIZAR PONTO] - Ponto salvo com sucesso!");
     }
 }

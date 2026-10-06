@@ -11,6 +11,7 @@ import com.api.batuque.domain.usecase.ControlePlaylistUseCase;
 import com.api.batuque.domain.usecase.ControlePontoUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Configuration
 public class UseBeanConfig {
@@ -18,22 +19,25 @@ public class UseBeanConfig {
     @Bean
     public ControlePontoInputPort controlePontoInputPort(
             PontoRepositoryOutputPort pontoRepository,
-            EntidadeRepositoryOutputPort entidadeRepositoryOutputPort
+            EntidadeRepositoryOutputPort entidadeRepositoryOutputPort,
+            SimpMessagingTemplate messagingTemplate
     ) {
-        return new ControlePontoUseCase(pontoRepository, entidadeRepositoryOutputPort);
+        return new ControlePontoUseCase(pontoRepository, entidadeRepositoryOutputPort, messagingTemplate);
     }
 
     @Bean
     public ControleEntidadeInputPort controleEntidadeInputPort(
-            EntidadeRepositoryOutputPort entidadeRepositoryOutputPort
+            EntidadeRepositoryOutputPort entidadeRepositoryOutputPort,
+            SimpMessagingTemplate messagingTemplate
     ) {
-        return new ControleEntidadeUseCase(entidadeRepositoryOutputPort);
+        return new ControleEntidadeUseCase(entidadeRepositoryOutputPort, messagingTemplate);
     }
 
     @Bean
     public ControlePlaylistInputPort controlePlaylistInputPort(
-            PlaylistRepositoryOutputPort playlistRepositoryOutputPort
+            PlaylistRepositoryOutputPort playlistRepositoryOutputPort,
+            SimpMessagingTemplate messagingTemplate
     ) {
-        return new ControlePlaylistUseCase(playlistRepositoryOutputPort);
+        return new ControlePlaylistUseCase(playlistRepositoryOutputPort, messagingTemplate);
     }
 }
