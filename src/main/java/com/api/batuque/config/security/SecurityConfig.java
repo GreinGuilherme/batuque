@@ -34,7 +34,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Libera Preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()// Libera Preflight
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/entidade/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gestaopontos/buscar/**").permitAll()
