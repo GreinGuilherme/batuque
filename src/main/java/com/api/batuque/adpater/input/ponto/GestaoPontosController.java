@@ -54,7 +54,7 @@ public class GestaoPontosController {
         return ResponseEntity.ok().body(responselist);
     }
 
-    @GetMapping(value = "/buscar/filtro")
+    @GetMapping(value = "/buscar/filtrar")
     public ResponseEntity<List<PontoResponse>> buscarPontosPorEntidade(@ModelAttribute PontoFiltroRequest request) {
         log.info("[BUSCAR PONTO] - Iniciando processo para buscar pontos da entidade.");
         PontoEntidade domain = pontoFiltroRequestMapper.dtoToModel(request);

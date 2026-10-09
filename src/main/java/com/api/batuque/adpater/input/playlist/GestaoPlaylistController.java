@@ -52,7 +52,7 @@ public class GestaoPlaylistController {
         return ResponseEntity.ok().body(responselist);
     }
 
-    @GetMapping(value = "/buscar/filtro")
+    @GetMapping(value = "/buscar/filtrar")
     public ResponseEntity<List<PlaylistResponse>> buscarPontosPorEntidade(@RequestParam(required = false) Long playlistId,
                                                                           @RequestParam(required = false) String playlistNome,
                                                                           @RequestParam(required = false) Long entidadeId,
