@@ -2,6 +2,7 @@ package com.api.batuque.adpater.input.auth;
 
 import com.api.batuque.adpater.input.auth.dto.LoginRequest;
 import com.api.batuque.adpater.input.auth.dto.LoginResponse;
+import com.api.batuque.adpater.input.auth.dto.RefreshTokenRequest;
 import com.api.batuque.adpater.input.auth.dto.RegistroRequest;
 import com.api.batuque.adpater.output.database.usuarioJpa.UsuarioJpaRepository;
 import com.api.batuque.adpater.output.database.usuarioJpa.entity.UsuarioEntity;
@@ -51,10 +52,15 @@ public class AuthController {
         if (user == null) {
            throw new EntityNotFoundException("Usuário não existe");
         }
-        var token = tokenService.gerarToken(user);
-        //String tokenFormad = ("Bearer " + token);
+        String tokenCurto = tokenService.gerarToken(user);
+        String tokenRefresh = tokenService.gerarTokenRefresh(user);
+
+        LoginResponse token = new LoginResponse();
+        token.setToken(tokenCurto);
+        token.setRefreshToken(tokenRefresh);
+
         log.info("[CADASTRO LOGIN] - Login do usuário efetuado com sucesso");
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/registrar")
@@ -64,7 +70,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body("E-mail já cadastrado");
         }
 
-        //String senhaCriptografada = new BCryptPasswordEncoder().encode(registro.getSenha());
         log.info("[CADASTRO LOGIN] - Processando senha do usuário");
         String senhaCriptografada = passwordEncoder.encode(registro.getSenha());
         UsuarioEntity novoUsuario = new UsuarioEntity(null, registro.getNome(), registro.getEmail(), senhaCriptografada, registro.getRole());
@@ -72,5 +77,27 @@ public class AuthController {
         this.repository.save(novoUsuario);
         log.info("[CADASTRO LOGIN] - Usuário cadastrado com sucesso");
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody RefreshTokenRequest refreshToken) {
+        log.info("[REFRESH] - Iniciando processo verificar login");
+        String username = tokenService.coletarEmailJwt(refreshToken.getRefreshToken());
+        UsuarioEntity user = (UsuarioEntity) repository.findByEmail(username);
+
+        if (user == null) {
+            return ResponseEntity.badRequest().body("[REFRESH] - Usuário não encontrado");
+        }
+
+        log.info("[REFRESH] - Gerando token para o usuário");
+        String tokenCurto = tokenService.gerarToken(user);
+        String tokenRefresh = tokenService.gerarTokenRefresh(user);
+
+        LoginResponse token = new LoginResponse();
+        token.setToken(tokenCurto);
+        token.setRefreshToken(tokenRefresh);
+
+        log.info("[REFRESH] - Token gerado com sucesso");
+        return ResponseEntity.ok(token);
     }
 }
