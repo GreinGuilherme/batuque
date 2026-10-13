@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/entidade/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gestaopontos/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/playlist/buscar/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/gira/buscar/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
