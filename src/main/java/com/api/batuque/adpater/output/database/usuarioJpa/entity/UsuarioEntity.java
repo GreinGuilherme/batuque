@@ -1,6 +1,7 @@
 package com.api.batuque.adpater.output.database.usuarioJpa.entity;
 
 import com.api.batuque.domain.enums.UsuarioRoleEnum;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,6 +39,12 @@ public class UsuarioEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private UsuarioRoleEnum role;
+
+    @Column(name = "token_recuperacao")
+    private String tokenRecuperacao;
+
+    @Column(name = "token_expiracao")
+    private LocalDateTime tokenExpiracao;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

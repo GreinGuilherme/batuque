@@ -30,6 +30,8 @@ services:
       - DB_URL=jdbc:mysql://db:3306/batuquedb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - DB_USER=root
       - DB_PASS=${DB_PASSWORD}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
 
   nginx:
     image: nginx:alpine
