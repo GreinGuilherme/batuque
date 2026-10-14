@@ -1,11 +1,14 @@
 package com.api.batuque.adpater.input.auth;
 
+import com.api.batuque.adpater.input.auth.dto.EsqueciSenhaRequest;
 import com.api.batuque.adpater.input.auth.dto.LoginRequest;
 import com.api.batuque.adpater.input.auth.dto.LoginResponse;
+import com.api.batuque.adpater.input.auth.dto.RedefinirSenhaRequest;
 import com.api.batuque.adpater.input.auth.dto.RefreshTokenRequest;
 import com.api.batuque.adpater.input.auth.dto.RegistroRequest;
 import com.api.batuque.adpater.output.database.usuarioJpa.UsuarioJpaRepository;
 import com.api.batuque.adpater.output.database.usuarioJpa.entity.UsuarioEntity;
+import com.api.batuque.config.security.RecuperacaoSenhaService;
 import com.api.batuque.config.security.TokenService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 
 @Slf4j
@@ -39,6 +44,9 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RecuperacaoSenhaService recuperacaoSenhaService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest login) {
@@ -72,7 +80,7 @@ public class AuthController {
 
         log.info("[CADASTRO LOGIN] - Processando senha do usuário");
         String senhaCriptografada = passwordEncoder.encode(registro.getSenha());
-        UsuarioEntity novoUsuario = new UsuarioEntity(null, registro.getNome(), registro.getEmail(), senhaCriptografada, registro.getRole());
+        UsuarioEntity novoUsuario = new UsuarioEntity(null, registro.getNome(), registro.getEmail(), senhaCriptografada, registro.getRole(), null, null);
 
         this.repository.save(novoUsuario);
         log.info("[CADASTRO LOGIN] - Usuário cadastrado com sucesso");
@@ -99,5 +107,21 @@ public class AuthController {
 
         log.info("[REFRESH] - Token gerado com sucesso");
         return ResponseEntity.ok(token);
+    }
+
+    @PostMapping("/esqueci-senha")
+    public ResponseEntity<Map<String, String>> esqueciSenha(@RequestBody @Valid EsqueciSenhaRequest request) {
+        log.info("[ESQUECI SENHA] - Iniciando processo recuperaçao de senha.");
+        recuperacaoSenhaService.solicitarRecuperacao(request.email());
+        log.info("[ESQUECI SENHA] - Processo recuperaçao senha concluidocom sucesso!");
+        return ResponseEntity.ok(Map.of("mensagem", "Caso o e-mail esteja cadastrado, você receberá um código de recuperação em instantes."));
+    }
+
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<Map<String, String>> redefinirSenha(@RequestBody @Valid RedefinirSenhaRequest request) {
+        log.info("[REDEFINIR SENHA] - Iniciando processo redefinir senha.");
+        recuperacaoSenhaService.redefinirSenha(request.email(), request.codigo(), request.novaSenha());
+        log.info("[REDEFINIR SENHA] - Processo redefinir senha concluido com sucesso!");
+        return ResponseEntity.ok(Map.of("mensagem", "Senha atualizada com sucesso! Faça login com sua nova senha."));
     }
 }
