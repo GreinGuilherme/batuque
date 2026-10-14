@@ -22,8 +22,8 @@ public class ControleGiraUseCase implements ControleGiraInputPort {
     public void salvarGira(Gira gira) {
         log.info("[SALVAR GIRA] - Iniciando processo para salvar gira: {}", gira.getNomeGira());
         gira.setNomeGira(gira.getNomeGira().trim());
-        giraRepositoryOutputPort.salvarGira(gira);
-        messagingTemplate.convertAndSend("/topic/gira", new SyncEvent<>("CREATE", gira));
+        Gira giraSaved = giraRepositoryOutputPort.salvarGira(gira);
+        messagingTemplate.convertAndSend("/topic/gira", new SyncEvent<>("CREATE", giraSaved));
         log.info("[SALVAR GIRA] - Gira salvo com sucesso.");
     }
 
@@ -54,8 +54,8 @@ public class ControleGiraUseCase implements ControleGiraInputPort {
     @Override
     public void atualizarGira(Long id, Gira request) {
         log.info("[ATUALIZAR GIRA] - Iniciando processo para atualizar gira: {}.", request.getNomeGira());
-        giraRepositoryOutputPort.atualizarGira(id, request);
-        messagingTemplate.convertAndSend("/topic/gira", new SyncEvent<>("UPDATE", request));
-        log.info("[ATUALIZAR GIRA] - Processo para atualizar gira: {}, foi concluido.", request.getNomeGira());
+        Gira giraSaved= giraRepositoryOutputPort.atualizarGira(id, request);
+        messagingTemplate.convertAndSend("/topic/gira", new SyncEvent<>("UPDATE", giraSaved));
+        log.info("[ATUALIZAR GIRA] - Processo para atualizar gira: {}, foi concluido.", giraSaved.getNomeGira());
     }
 }

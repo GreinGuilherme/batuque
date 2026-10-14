@@ -23,8 +23,8 @@ public class ControleEntidadeUseCase implements ControleEntidadeInputPort {
     public void salvarEntidade(Entidades entidade) {
         log.info("[SALVAR ENTIDADE] - Iniciando processo para salvar entidade: ", entidade.getNomeEntidade());
         entidade.setNomeEntidade(entidade.getNomeEntidade().trim());
-        entidadeRepositoryOutputPort.incluirEntidade(entidade);
-        messagingTemplate.convertAndSend("/topic/entidade", new SyncEvent<>("CREATE", entidade));
+        Entidades response = entidadeRepositoryOutputPort.incluirEntidade(entidade);
+        messagingTemplate.convertAndSend("/topic/entidade", new SyncEvent<>("CREATE", response));
         log.info("[SALVAR ENTIDADE] - Entidade salvo com sucesso.");}
 
     @Override

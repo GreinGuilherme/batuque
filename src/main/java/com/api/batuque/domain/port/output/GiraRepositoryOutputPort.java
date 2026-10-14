@@ -10,5 +10,5 @@ public interface GiraRepositoryOutputPort {
     List<Gira> buscarTodasGira();
     List<Gira> buscarPorFiltro(GiraFiltro filtro);
     void deletarGira(Long id);
-    void atualizarGira(Long id, Gira giraAtualizada);
+    Gira atualizarGira(Long id, Gira giraAtualizada);
 }

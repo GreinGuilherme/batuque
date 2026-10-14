@@ -84,7 +84,7 @@ public class GiraAdapter implements GiraRepositoryOutputPort {
 
     @Override
     @Transactional
-    public void atualizarGira(Long id, Gira giraAtualizada) {
+    public Gira atualizarGira(Long id, Gira giraAtualizada) {
         log.info("[ATUALIZAR GIRA] - Atualizando gira com ID: {}", id);
         GiraEntity entity = giraJpaRepository.findByIdWithPlaylist(id).orElseThrow(() -> new EntityNotFoundException("Gira não encontrada: " + id));;
 
@@ -115,6 +115,8 @@ public class GiraAdapter implements GiraRepositoryOutputPort {
             entity.getPlaylist().addAll(novosItens); // O cascade salva os novos
         }
 
-        giraJpaRepository.save(entity);
+        GiraEntity giraSave = giraJpaRepository.save(entity);
+        Gira response = giraEntityMapper.entityToModel(giraSave);
+        return response;
     }
 }

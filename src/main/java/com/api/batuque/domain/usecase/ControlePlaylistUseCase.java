@@ -22,8 +22,8 @@ public class ControlePlaylistUseCase implements ControlePlaylistInputPort {
     public void salvarPlaylist(Playlist playlist) {
         log.info("[SALVAR PLAYLIST] - Iniciando processo para salvar playlist: {}", playlist.getNomePlaylist());
         playlist.setNomePlaylist(playlist.getNomePlaylist().trim());
-        playlistRepositoryOutputPort.salvarPlaylist(playlist);
-        messagingTemplate.convertAndSend("/topic/playlist", new SyncEvent<>("CREATE", playlist));
+        Playlist playlistSaved = playlistRepositoryOutputPort.salvarPlaylist(playlist);
+        messagingTemplate.convertAndSend("/topic/playlist", new SyncEvent<>("CREATE", playlistSaved));
         log.info("[SALVAR PLAYLIST] - Playlist salvo com sucesso.");
     }
 

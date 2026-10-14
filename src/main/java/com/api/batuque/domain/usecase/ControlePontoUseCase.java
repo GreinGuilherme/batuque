@@ -28,8 +28,8 @@ public class ControlePontoUseCase implements ControlePontoInputPort {
         controlePonto.setNomeEntidade(entidade.getNomeEntidade());
         controlePonto.setEntidadeId(entidade.getId());
         controlePonto.setLinhaEntidade(entidade.getLinhaEntidade());
-        pontoRepositoryOutputPort.incluirPonto(controlePonto);
-        messagingTemplate.convertAndSend("/topic/ponto", new SyncEvent<>("CREATE", controlePonto));
+        PontoEntidade pontoSaved = pontoRepositoryOutputPort.incluirPonto(controlePonto);
+        messagingTemplate.convertAndSend("/topic/ponto", new SyncEvent<>("CREATE", pontoSaved));
         log.info("[SALVAR PONTO] - Ponto salvo com sucesso!");
     }
 
