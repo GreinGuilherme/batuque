@@ -18,6 +18,8 @@ services:
 
   batuque:
     image: ${DOCKER_USER}/batuque-api:latest
+    env_file:
+      - .env
     container_name: batuque-api
     restart: on-failure
     expose:
