@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()// Libera Preflight
                         .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/ws").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/entidade/buscar/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gestaopontos/buscar/**").permitAll()

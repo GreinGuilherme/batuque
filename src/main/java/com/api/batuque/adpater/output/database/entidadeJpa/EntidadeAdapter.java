@@ -20,11 +20,13 @@ public class EntidadeAdapter implements EntidadeRepositoryOutputPort {
     private final EntidadeJpaRepository entidadeJpaRepository;
     private final EntidadeEntityMapper entidadeEntityMapper;
 
-    public void incluirEntidade(Entidades entidade) {
+    public Entidades incluirEntidade(Entidades entidade) {
         log.info("[SALVAR ENTIDADE] - Salvando entidade {}", entidade.getNomeEntidade());
         EntidadeEntity entity = entidadeEntityMapper.modelToDto(entidade);
-        entidadeJpaRepository.save(entity);
+        EntidadeEntity entitySave = entidadeJpaRepository.save(entity);
+        Entidades response = entidadeEntityMapper.dtoToModel(entitySave);
         log.info("[SALVAR ENTIDADE] - Entidade {}, foi salvo com sucesso!", entidade.getNomeEntidade());
+        return response;
     }
 
     public List<Entidades> buscarEntidades() {

@@ -22,11 +22,13 @@ public class PontoAdapter implements PontoRepositoryOutputPort {
     private final PontoEntityMapper pontoEntityMapper;
 
     @Transactional
-    public void incluirPonto(PontoEntidade pontoEntidade) {
+    public PontoEntidade incluirPonto(PontoEntidade pontoEntidade) {
         log.info("[SALVAR PONTO] - Iniciando processo para salvar o ponto");
         ControlePontoEntity ponto = pontoEntityMapper.modelToDto(pontoEntidade);
-        pontoJpaRepository.save(ponto);
+        ControlePontoEntity pontoSave = pontoJpaRepository.save(ponto);
+        PontoEntidade pontoEntidadeSave = pontoEntityMapper.dtoToModel(pontoSave);
         log.info("[SALVAR PONTO] - Ponto foi salvo com sucesso!");
+        return pontoEntidadeSave;
     }
 
     @Override

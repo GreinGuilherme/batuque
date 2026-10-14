@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PontoRepositoryOutputPort {
-    void incluirPonto(PontoEntidade pontoEntidade);
+    PontoEntidade incluirPonto(PontoEntidade pontoEntidade);
     List<PontoEntidade> buscarPontos();
     Optional<PontoEntidade> buscarPorId(Long id);
     List<PontoEntidade> buscarPontosPorFiltro(PontoEntidade pontoEntidade);
