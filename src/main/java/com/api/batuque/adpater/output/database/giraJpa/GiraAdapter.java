@@ -116,6 +116,7 @@ public class GiraAdapter implements GiraRepositoryOutputPort {
         }
 
         GiraEntity giraSave = giraJpaRepository.save(entity);
+        giraSave.setId(id);
         Gira response = giraEntityMapper.entityToModel(giraSave);
         return response;
     }

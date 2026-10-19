@@ -55,6 +55,7 @@ public class ControlePlaylistUseCase implements ControlePlaylistInputPort {
     public void atualizarPlaylist(Long id, Playlist request) {
         log.info("[ATUALIZAR PLAYLIST] - Iniciando processo para atualizar playlist: {}.", request.getNomePlaylist());
         playlistRepositoryOutputPort.atualizarPlaylist(id, request);
+        request.setId(id);
         messagingTemplate.convertAndSend("/topic/playlist", new SyncEvent<>("UPDATE", request));
         log.info("[ATUALIZAR PLAYLIST] - Processo para atualizar playlist: {}, foi concluido.", request.getNomePlaylist());
     }
