@@ -11,9 +11,8 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Aplica a todos os endpoints (gestaopontos, entidade, playlist)
                 .allowedOriginPatterns("*") // Substitua pela URL real do front
-                .allowedOrigins("http://localhost:54378", "https://batuque.duckdns.org")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                .allowedHeaders("Authorization", "Content-Type")
+                .allowedHeaders("Authorization", "Content-Type", "User-Agent", "x-app-batuque")
                 .allowCredentials(true);
     }
 }
