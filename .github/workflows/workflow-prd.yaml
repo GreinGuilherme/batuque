@@ -37,3 +37,16 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/batuque-api:latest
             ${{ secrets.DOCKER_USERNAME }}/batuque-api:${{ github.sha }}
+
+      # Comando opcional para logar na VPS e reiniciar o container automaticamente
+      - name: Trigger VPS Update via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 136.248.110.77
+          username: ubuntu
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/batuqueapp
+            docker compose pull
+            docker compose up -d
+            docker image prune -f
