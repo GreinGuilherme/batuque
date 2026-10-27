@@ -13,7 +13,7 @@ public record RedefinirSenhaRequest(
         String codigo,
 
         @NotBlank(message = "A nova senha é obrigatória")
-        @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
+        @Size(min = 6, max = 12, message = "Minimo de 6 e Máximo de 12 caracteres.")
         String novaSenha
 ) {
 }

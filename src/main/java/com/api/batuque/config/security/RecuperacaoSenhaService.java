@@ -3,11 +3,16 @@ package com.api.batuque.config.security;
 import com.api.batuque.adpater.output.database.usuarioJpa.UsuarioJpaRepository;
 import com.api.batuque.adpater.output.database.usuarioJpa.entity.UsuarioEntity;
 import com.api.batuque.domain.Exception.UnauthorizedException;
+import com.api.batuque.domain.model.RedefinirSenha;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +25,9 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 public class RecuperacaoSenhaService {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     private final UsuarioJpaRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
@@ -117,6 +125,29 @@ public class RecuperacaoSenhaService {
         log.info("[REDEFINIR SENHA] - Iniciando processo atualizaçao de senha");
         // Atualiza para a nova senha definitiva e limpa o token de uso unico
         usuario.setSenha(passwordEncoder.encode(novaSenha));
+        usuario.setTokenRecuperacao(null);
+        usuario.setTokenExpiracao(null);
+
+        log.info("[REDEFINIR SENHA] - Salvando nova senha.");
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public void alterarSenha(RedefinirSenha request) {
+        log.info("[ALTERAR SENHA] - Iniciando procurando login do usuario.");
+
+        var usernamePassword = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha());
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        log.info("[ALTERAR SENHA] - Gerando token para o usuário");
+        UsuarioEntity usuario = (UsuarioEntity) auth.getPrincipal();
+        if (usuario == null) {
+            throw new EntityNotFoundException("Usuário não existe");
+        }
+
+        log.info("[REDEFINIR SENHA] - Iniciando processo atualizaçao de senha");
+        // Atualiza para a nova senha definitiva e limpa o token de uso unico
+        usuario.setSenha(passwordEncoder.encode(request.getNovaSenha()));
         usuario.setTokenRecuperacao(null);
         usuario.setTokenExpiracao(null);
 
