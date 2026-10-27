@@ -1,6 +1,8 @@
 package com.api.batuque.config;
 
+import com.api.batuque.domain.Exception.BadRequestException;
 import com.api.batuque.domain.Exception.ForbiddenException;
+import com.api.batuque.domain.Exception.NotFoundException;
 import com.api.batuque.domain.Exception.UnauthorizedException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -40,6 +42,26 @@ public class GlobalExceptionHandler {
                 "timestamp", LocalDateTime.now(),
                 "status", 403,
                 "error", "Acesso negado.",
+                "message", ex.getMessage()
+        ));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, Object>> notFoundException(NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                "timestamp", LocalDateTime.now(),
+                "status", 404,
+                "error", "Objeto no encontrado.",
+                "message", ex.getMessage()
+        ));
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String, Object>> badRequestException(BadRequestException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "timestamp", LocalDateTime.now(),
+                "status", 400,
+                "error", "Erro no processo.",
                 "message", ex.getMessage()
         ));
     }

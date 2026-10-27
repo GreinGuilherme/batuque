@@ -1,7 +1,7 @@
 package com.api.batuque.config.security;
 
-import com.api.batuque.adpater.output.database.usuarioJpa.entity.UsuarioEntity;
 import com.api.batuque.domain.Exception.UnauthorizedException;
+import com.api.batuque.domain.model.RegistroUsuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -20,7 +20,7 @@ public class TokenService {
     @Value("${api.security.token.secret:chave_secreta_padrao_trocar_em_prod}")
     private String secret;
 
-    public String gerarToken(UsuarioEntity username) {
+    public String gerarToken(RegistroUsuario username) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -35,7 +35,7 @@ public class TokenService {
         }
     }
 
-    public String gerarTokenRefresh(UsuarioEntity username) {
+    public String gerarTokenRefresh(RegistroUsuario username) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()

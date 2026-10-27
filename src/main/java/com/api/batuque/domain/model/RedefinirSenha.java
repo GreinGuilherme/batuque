@@ -7,8 +7,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Login {
+public class RedefinirSenha {
 
     private String email;
     private String senha;
+    private String token;
+    private String codigo;
+    private String novaSenha;
+    private String refreshToken;
 }
